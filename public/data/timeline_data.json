@@ -1,0 +1,50 @@
+[
+  {
+    "year": "2012",
+    "country": "Belgique",
+    "description": "Découverte de Bruxelles, Bruges et Ostende, immersion dans l'architecture flamande et dégustation des fameuses gaufres belges.",
+    "photo": "/images/belgique.jpg"
+  },
+  {
+    "year": "2016",
+    "country": "Angleterre",
+    "description": "Séjour à Londres en janvier, visite de Big Ben, Buckingham Palace et les quartiers branchés de Camden.",
+    "photo": "/images/londres.jpg"
+  },
+  {
+    "year": "2016",
+    "country": "Canada",
+    "description": "Exploration du Canada Est (Montréal) et Ouest (Colombie Britannique, Alberta) avec une immersion dans les Rocheuses canadiennes.",
+    "photo": "/images/canada.jpg"
+  },
+  {
+    "year": "2017",
+    "country": "USA",
+    "description": "Voyage à New York en mai, découverte de la Statue de la Liberté, Central Park et Coney Island.",
+    "photo": "/images/nyc.jpg"
+  },
+  {
+    "year": "2018",
+    "country": "Jordanie",
+    "description": "Aventure dans le désert de Wadi Rum, exploration de Petra et baignade dans la Mer Morte.",
+    "photo": "/images/jordanie.jpg"
+  },
+  {
+    "year": "2019",
+    "country": "Guadeloupe",
+    "description": "Découverte de Basse Terre, Grande Terre et Petite Terre, plongée sous-marine et exploration des plages paradisiaques.",
+    "photo": "/images/guadeloupe.jpg"
+  },
+  {
+    "year": "2022",
+    "country": "Madère",
+    "description": "Randonnée à travers les paysages volcaniques et forêts luxuriantes de Madère, exploration des célèbres levadas.",
+    "photo": "/images/madere.jpg"
+  },
+  {
+    "year": "2024",
+    "country": "Polynésie Française",
+    "description": "Installation en Polynésie : découverte de Tahiti, Moorea, Bora Bora et autres îles paradisiaques du Pacifique.",
+    "photo": "/images/polynesie.jpg"
+  }
+]
