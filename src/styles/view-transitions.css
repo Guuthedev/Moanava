@@ -1,0 +1,56 @@
+/* Styles pour les transitions de vue */
+
+/* Style global pour le conteneur principal */
+.view-transition-container {
+  width: 100%;
+  height: 100%;
+  view-transition-name: page;
+}
+
+/* Styles pour la page entière */
+::view-transition-old(page),
+::view-transition-new(page) {
+  animation-duration: 0.5s;
+  animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Ajouter des animations pour les blocs de contenu spécifiques */
+.content-block {
+  view-transition-name: content-block;
+}
+
+::view-transition-old(content-block),
+::view-transition-new(content-block) {
+  animation-duration: 0.6s;
+}
+
+/* Style pour les cartes et éléments de navigation */
+.nav-item {
+  view-transition-name: nav-item;
+}
+
+::view-transition-old(nav-item),
+::view-transition-new(nav-item) {
+  animation-duration: 0.4s;
+}
+
+/* Styles pour les éléments de hero */
+.hero-element {
+  view-transition-name: hero;
+}
+
+::view-transition-old(hero),
+::view-transition-new(hero) {
+  animation-duration: 0.7s;
+}
+
+/* Animation pour les éléments qui doivent être soulignés */
+@supports (view-transition-name: none) {
+  .has-view-transition {
+    transition: transform 0.3s, opacity 0.3s;
+  }
+
+  .has-view-transition:hover {
+    transform: translateY(-2px);
+  }
+}

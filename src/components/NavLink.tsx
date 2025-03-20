@@ -1,8 +1,8 @@
 "use client";
 
-import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { ReactNode } from "react";
+import { TransitionLink } from "./TransitionLink";
 
 interface NavLinkProps {
   href: string;
@@ -19,17 +19,17 @@ export default function NavLink({
   const isActive = pathname === href;
 
   return (
-    <Link
+    <TransitionLink
       href={href}
-      className={`text-secondary font-medium relative group transition-all duration-300 hover:scale-105 transform-gpu hover:text-primary ${className} ${
+      className={`text-secondary font-medium relative group transition-all duration-300 hover:scale-105 transform-gpu ${className} ${
         isActive ? "font-semibold" : ""
       }`}
     >
       {children}
       <span
-        className="absolute bottom-0 left-0 w-0 h-0.5 bg-secondary origin-left transition-all duration-300 group-hover:w-full group-hover:bg-primary"
+        className="absolute bottom-0 left-0 w-0 h-0.5 bg-secondary origin-left transition-all duration-300 group-hover:w-full"
         aria-hidden="true"
       />
-    </Link>
+    </TransitionLink>
   );
 }

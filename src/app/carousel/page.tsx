@@ -1,5 +1,5 @@
-import Footer from "@/app/components/footer";
 import CarouselDemo from "@/components/carousel-demo";
+import Footer from "@/components/footer";
 import Navbar from "@/components/Navbar";
 
 export default function CarouselPage() {

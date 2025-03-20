@@ -1,11 +1,12 @@
 "use client";
 
+import { motion } from "framer-motion";
 import { Facebook, Instagram, Youtube } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
 
 // Icône TikTok personnalisée
-const TikTokIcon = () => (
+const TikTokIcon = ({ className }: { className?: string }) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     width="24"
@@ -16,7 +17,7 @@ const TikTokIcon = () => (
     strokeWidth="1"
     strokeLinecap="round"
     strokeLinejoin="round"
-    className="h-8 w-8 text-secondary group-hover/icon:text-secondary"
+    className={className || "h-8 w-8 text-secondary"}
   >
     <path d="M9 12a4 4 0 1 0 0 8a4 4 0 0 0 0-8z" />
     <path d="M16 8v8" />
@@ -27,8 +28,16 @@ const TikTokIcon = () => (
 );
 
 const socialLinks = [
-  { name: "Facebook", icon: Facebook, href: "https://facebook.com" },
-  { name: "Instagram", icon: Instagram, href: "https://instagram.com" },
+  {
+    name: "Facebook",
+    icon: Facebook,
+    href: "https://www.facebook.com/520849857787552",
+  },
+  {
+    name: "Instagram",
+    icon: Instagram,
+    href: "https://www.instagram.com/moanava_travel.planner",
+  },
   { name: "YouTube", icon: Youtube, href: "https://youtube.com" },
   {
     name: "TikTok",
@@ -57,7 +66,7 @@ export default function Footer() {
             isExpanded ? "opacity-100" : "opacity-0"
           } group-hover:opacity-100`}
         >
-          <div className="bg-primary text-tertiary px-3 py-1 rounded-lg text-xs whitespace-nowrap mx-auto inline-block shadow-md">
+          <div className="bg-primary text-secondary px-3 py-1 rounded-lg text-xs whitespace-nowrap mx-auto inline-block shadow-md">
             Johanna, créatrice de souvenirs.
           </div>
         </div>
@@ -69,18 +78,18 @@ export default function Footer() {
               isExpanded ? "max-h-10 opacity-100" : "max-h-0 opacity-0"
             } group-hover:max-h-10 group-hover:opacity-100`}
           >
-            <div className="text-xs text-tertiary whitespace-nowrap">
+            <div className="text-xs text-secondary whitespace-nowrap">
               © {currentYear} moanava.com
               <div className="flex justify-center space-x-2 mt-0.5">
                 <Link
                   href="/cgv"
-                  className="hover:underline hover:text-primary transition-colors text-[10px]"
+                  className="text-secondary hover:underline transition-all duration-200"
                 >
                   CGV
                 </Link>
                 <Link
                   href="/mentions-legales"
-                  className="hover:underline hover:text-primary transition-colors text-[10px]"
+                  className="text-secondary hover:underline transition-all duration-200"
                 >
                   Mentions Légales
                 </Link>
@@ -93,23 +102,44 @@ export default function Footer() {
             {socialLinks.map((link) => {
               const Icon = link.icon;
               return (
-                <a
+                <motion.a
                   key={link.name}
                   href={link.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center justify-center p-1.5 rounded-full hover:bg-primary transition-all duration-300 transform hover:scale-110 group/icon"
+                  className="relative flex items-center justify-center p-1.5 rounded-full transition-transform duration-300 transform hover:scale-110 group/icon overflow-hidden"
                   aria-label={link.name}
+                  whileHover="hover"
+                  initial="initial"
                 >
+                  {/* Animation de remplissage de fond */}
+                  <motion.div
+                    className="absolute inset-0 bg-secondary opacity-0 rounded-full"
+                    variants={{
+                      initial: { opacity: 0, scale: 0 },
+                      hover: {
+                        opacity: 1,
+                        scale: 1,
+                        transition: {
+                          duration: 0.3,
+                          ease: [0.25, 0.1, 0.25, 1],
+                        },
+                      },
+                    }}
+                  />
+
+                  {/* Icône */}
                   {link.isCustomIcon ? (
-                    <Icon />
+                    <div className="relative z-10">
+                      <Icon className="h-8 w-8 text-secondary group-hover/icon:text-primary transition-colors duration-300" />
+                    </div>
                   ) : (
                     <Icon
-                      className="h-8 w-8 text-secondary group-hover/icon:text-secondary"
+                      className="h-8 w-8 text-secondary group-hover/icon:text-primary relative z-10 transition-colors duration-300"
                       strokeWidth={1}
                     />
                   )}
-                </a>
+                </motion.a>
               );
             })}
           </div>
