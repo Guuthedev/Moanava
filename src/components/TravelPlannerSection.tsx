@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import { Clock, Compass, Leaf, MapPin, PiggyBank, Users } from "lucide-react";
+import SectionTransition from "./SectionTransition";
 import { CardHoverEffect } from "./ui/card-hover-effect";
 
 // Expertise et avantages d'un Travel Planner
@@ -44,79 +45,45 @@ const expertise = [
   },
 ];
 
-// Services et accompagnement
-const services = [
-  {
-    title: "Carnet de voyage sur-mesure",
-    description:
-      "Recevez un guide complet personnalisé avec itinéraire détaillé, cartes interactives, recommandations d'hébergements, transports, restaurants et activités adaptés à vos envies.",
-    icon: Compass,
-  },
-  {
-    title: "Conseils pratiques",
-    description:
-      "Bénéficiez de mes conseils avisés sur le climat, les visas, l'équipement nécessaire et les règles culturelles pour éviter les erreurs courantes et profiter pleinement de votre voyage.",
-    icon: MapPin,
-  },
-  {
-    title: "Support continu",
-    description:
-      "Je reste disponible avant et pendant votre voyage pour répondre à vos questions et vous guider en cas de besoin. Un accompagnement personnalisé pour une expérience sereine.",
-    icon: Users,
-  },
-  {
-    title: "Optimisation budgétaire",
-    description:
-      "Grâce à mes partenariats locaux et mon expertise, je vous aide à optimiser votre budget sans compromettre la qualité de votre voyage. Des bons plans exclusifs pour des expériences premium.",
-    icon: PiggyBank,
-  },
-];
-
 export default function TravelPlannerSection() {
   return (
-    <section className="py-20 bg-primary/5">
-      <div className="container mx-auto px-4">
-        <motion.div
-          className="max-w-5xl mx-auto space-y-12"
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8, ease: "easeOut" }}
-        >
-          {/* En-tête */}
-          <div className="text-center space-y-4">
-            <h2 className="text-4xl lg:text-5xl font-bold text-secondary font-display">
-              <span className="text-primary">Pourquoi choisir</span>
-              <span className="block">un Travel Planner ?</span>
-            </h2>
+    <SectionTransition direction="up">
+      <section className="py-20 bg-primary/5">
+        <div className="container mx-auto px-4">
+          <motion.div
+            className="max-w-5xl mx-auto space-y-12"
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8, ease: "easeOut" }}
+          >
+            {/* En-tête */}
+            <div className="text-center space-y-4">
+              <h2 className="text-4xl lg:text-5xl font-bold text-primary font-display">
+                <span className="text-secondary">Pourquoi choisir</span>
+                <span className="block">un Travel Planner ?</span>
+              </h2>
 
-            <p className="text-lg text-secondary/80 leading-relaxed max-w-3xl mx-auto">
-              Organiser un voyage parfait demande du temps et de
-              l&apos;expertise. En choisissant mes services, vous économisez non
-              seulement votre temps précieux mais aussi votre argent. Je
-              sélectionne les meilleures offres, évite les pièges touristiques
-              et vous garantis des expériences authentiques que vous ne
-              trouveriez pas seul.
-            </p>
-          </div>
+              <p className="text-lg text-secondary/80 leading-relaxed max-w-3xl mx-auto">
+                Organiser un voyage parfait demande du temps et de
+                l&apos;expertise. En choisissant mes services, vous économisez
+                non seulement votre temps précieux mais aussi votre argent. Je
+                sélectionne les meilleures offres, évite les pièges touristiques
+                et vous garantis des expériences authentiques que vous ne
+                trouveriez pas seul.
+              </p>
+            </div>
 
-          {/* Section Expertise et Avantages */}
-          <div className="space-y-8">
-            <h3 className="text-2xl font-bold text-secondary text-center">
-              Mon expertise et ma différenciation
-            </h3>
-            <CardHoverEffect items={expertise} />
-          </div>
-
-          {/* Section Services */}
-          <div className="space-y-8">
-            <h3 className="text-2xl font-bold text-secondary text-center">
-              Mes services et accompagnement
-            </h3>
-            <CardHoverEffect items={services} />
-          </div>
-        </motion.div>
-      </div>
-    </section>
+            {/* Section Expertise et Avantages */}
+            <div className="space-y-8">
+              <h3 className="text-2xl font-bold text-secondary text-center">
+                Mon expertise et ma différenciation
+              </h3>
+              <CardHoverEffect items={expertise} />
+            </div>
+          </motion.div>
+        </div>
+      </section>
+    </SectionTransition>
   );
 }

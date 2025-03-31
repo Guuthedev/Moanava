@@ -1,21 +1,29 @@
 "use client";
 
 import { AnimatePresence, motion } from "framer-motion";
-import { Instagram, Lightbulb } from "lucide-react";
+import { Facebook, Instagram, Lightbulb } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
 export function InfoPopup() {
   const [isVisible, setIsVisible] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
+  const [hoveredSocial, setHoveredSocial] = useState<string | null>(null);
 
   useEffect(() => {
-    // Afficher le popup après 15 secondes
-    const timer = setTimeout(() => {
-      setIsVisible(true);
-    }, 15000);
+    // Vérifier si le popup a déjà été affiché lors de cette visite
+    const hasShownPopup = localStorage.getItem("popupShown");
 
-    return () => clearTimeout(timer);
+    if (!hasShownPopup) {
+      // Afficher le popup après 12 secondes
+      const timer = setTimeout(() => {
+        setIsVisible(true);
+        // Marquer le popup comme affiché
+        localStorage.setItem("popupShown", "true");
+      }, 12000);
+
+      return () => clearTimeout(timer);
+    }
   }, []);
 
   return (
@@ -59,34 +67,87 @@ export function InfoPopup() {
 
               {/* Contenu */}
               <div className="flex flex-col gap-6 relative">
-                <div className="flex items-start gap-4">
+                <div className="flex flex-col items-center gap-4 text-center">
+                  <h3 className="text-xl font-bold text-white">
+                    Restez connecté !
+                  </h3>
                   <div className="bg-white/20 p-3 rounded-full">
                     <Lightbulb className="h-6 w-6 text-white" />
                   </div>
                   <div className="flex-1">
-                    <h3 className="text-xl font-bold text-white mb-2">
-                      Le saviez-vous ?
-                    </h3>
                     <p className="text-lg text-white/90 leading-relaxed">
-                      En moyenne, mes clients économisent 15% sur leur voyage
-                      tout en profitant d&apos;expériences de qualité
-                      supérieure.
+                      Suivez-moi sur les réseaux sociaux pour découvrir mes
+                      dernières destinations, des conseils de voyage exclusifs
+                      et des offres privilégiées.
                     </p>
                   </div>
                 </div>
 
-                {/* Bouton Instagram */}
-                <Link
-                  href="https://www.instagram.com/moanava_travel.planner/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center justify-center gap-2 bg-white/20 hover:bg-white/30 text-white px-6 py-3 rounded-xl transition-colors duration-200"
-                >
-                  <Instagram className="h-5 w-5" />
-                  <span className="font-medium">
-                    Suivez-moi sur Instagram pour plus d&apos;actualités
-                  </span>
-                </Link>
+                {/* Boutons des réseaux sociaux */}
+                <div className="flex flex-col gap-3">
+                  <Link
+                    href="https://www.instagram.com/moanava_travel.planner/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="relative flex items-center justify-center gap-2 bg-white/20 hover:bg-white/30 text-white px-6 py-3 rounded-xl transition-colors duration-200 overflow-hidden group"
+                    onMouseEnter={() => setHoveredSocial("instagram")}
+                    onMouseLeave={() => setHoveredSocial(null)}
+                  >
+                    <motion.div
+                      className="absolute inset-0 flex items-center justify-center"
+                      animate={{
+                        scale: hoveredSocial === "instagram" ? 1.2 : 1,
+                        opacity: hoveredSocial === "instagram" ? 1 : 0,
+                      }}
+                      transition={{ duration: 0.2 }}
+                    >
+                      <Instagram className="h-8 w-8" />
+                    </motion.div>
+                    <motion.div
+                      className="flex items-center justify-center gap-2"
+                      animate={{
+                        opacity: hoveredSocial === "instagram" ? 0 : 1,
+                      }}
+                      transition={{ duration: 0.2 }}
+                    >
+                      <Instagram className="h-5 w-5" />
+                      <span className="font-medium">
+                        Suivez-moi sur Instagram
+                      </span>
+                    </motion.div>
+                  </Link>
+                  <Link
+                    href="https://www.facebook.com/520849857787552"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="relative flex items-center justify-center gap-2 bg-white/20 hover:bg-white/30 text-white px-6 py-3 rounded-xl transition-colors duration-200 overflow-hidden group"
+                    onMouseEnter={() => setHoveredSocial("facebook")}
+                    onMouseLeave={() => setHoveredSocial(null)}
+                  >
+                    <motion.div
+                      className="absolute inset-0 flex items-center justify-center"
+                      animate={{
+                        scale: hoveredSocial === "facebook" ? 1.2 : 1,
+                        opacity: hoveredSocial === "facebook" ? 1 : 0,
+                      }}
+                      transition={{ duration: 0.2 }}
+                    >
+                      <Facebook className="h-8 w-8" />
+                    </motion.div>
+                    <motion.div
+                      className="flex items-center justify-center gap-2"
+                      animate={{
+                        opacity: hoveredSocial === "facebook" ? 0 : 1,
+                      }}
+                      transition={{ duration: 0.2 }}
+                    >
+                      <Facebook className="h-5 w-5" />
+                      <span className="font-medium">
+                        Rejoignez-moi sur Facebook
+                      </span>
+                    </motion.div>
+                  </Link>
+                </div>
               </div>
             </motion.div>
           </motion.div>

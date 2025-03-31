@@ -32,19 +32,24 @@ const HeroContent: React.FC<HeroContentProps> = ({
       {/* Titre principal (h1) avec effet de révélation */}
       <motion.h1
         id="hero-heading"
-        className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight mb-6 text-secondary font-display"
+        className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight mb-6 text-secondary font-display relative z-10"
         initial={{ opacity: 0, y: 30 }}
         animate={isVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
         transition={{ duration: 1.5, delay: 0.5, ease: "easeOut" }}
       >
         <span className="inline-flex flex-col items-center justify-center gap-y-2">
-          Des voyages
+          Johanna
+          <span className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl relative z-10">
+            Travel Planner
+          </span>
           <FlipWords
             words={keywords}
             duration={2500}
-            className="text-primary/90 [text-shadow:_0_1px_0_var(--secondary)]"
+            className="text-primary/90 relative z-10"
           />
-          avec Moanava
+          <span className="text-xl sm:text-2xl md:text-3xl lg:text-4xl relative z-10">
+            en Polynésie, et ailleurs
+          </span>
         </span>
       </motion.h1>
 
@@ -56,30 +61,12 @@ const HeroContent: React.FC<HeroContentProps> = ({
         transition={{ duration: 1.2, delay: 1.8 }}
       >
         <motion.p
-          className="text-lg sm:text-xl md:text-2xl text-secondary font-medium max-w-3xl mx-auto"
+          className="text-lg sm:text-xl md:text-2xl text-secondary font-medium max-w-3xl mx-auto relative z-10"
           initial={{ opacity: 0, y: 20 }}
           animate={isVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
           transition={{ duration: 1, delay: 2, ease: "easeOut" }}
         >
           {subtitle}
-        </motion.p>
-
-        <motion.p
-          className="text-base sm:text-lg md:text-xl text-secondary/80"
-          initial={{ opacity: 0, y: 20 }}
-          animate={isVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-          transition={{ duration: 1, delay: 2.5, ease: "easeOut" }}
-        >
-          Un voyage authentique, conçu sur mesure, juste pour vous
-        </motion.p>
-
-        <motion.p
-          className="text-base sm:text-lg md:text-xl text-secondary/80 italic"
-          initial={{ opacity: 0, y: 20 }}
-          animate={isVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-          transition={{ duration: 1, delay: 3, ease: "easeOut" }}
-        >
-          &ldquo;Voyagez serein, je trace votre chemin !&rdquo;
         </motion.p>
       </motion.div>
 
@@ -95,7 +82,7 @@ const HeroContent: React.FC<HeroContentProps> = ({
         className="inline-block"
       >
         <ButtonCTA size="lg" onClick={onContactClick}>
-          Commencez votre voyage
+          Parlez-moi de votre projet de voyage
         </ButtonCTA>
       </motion.div>
     </motion.div>
@@ -109,8 +96,8 @@ interface HeroProps {
 }
 
 // Composant Hero avec typage TypeScript
-const Hero: React.FC<HeroProps> = ({
-  subtitle = "Johanna, Travel Planner et créatrice de souvenirs, vous accompagne pour un voyage qui vous ressemble, en Polynésie et dans le monde entier.",
+const TravelPlannerHero: React.FC<HeroProps> = ({
+  subtitle = "Découvrez la Polynésie française à travers des expériences authentiques et personnalisées, guidées par une experte locale.",
   onContactClick,
 }) => {
   const [isVisible, setIsVisible] = useState<boolean>(true);
@@ -134,21 +121,24 @@ const Hero: React.FC<HeroProps> = ({
   }, []);
 
   return (
-    <section className="relative w-full min-h-screen flex items-center justify-center">
+    <section
+      id="hero-section"
+      className="relative w-full min-h-screen flex items-center justify-center"
+    >
       {/* Conteneur de l'image de fond */}
       <div className="fixed inset-0 w-full h-full -z-10">
         {/* Image de fond */}
         <Image
-          src="/images/johanna/johanna-mer.webp"
-          alt="Johanna au bord de la mer"
+          src="/images/johanna/massage.webp"
+          alt="Massage polynésien"
           fill
-          className="object-cover object-top"
+          className="object-cover"
           priority
         />
 
         {/* Overlay gradient */}
         <div
-          className="absolute inset-0 w-full h-full bg-gradient-to-b from-primary-dark/70 via-primary-dark/30 to-primary-dark/10"
+          className="absolute inset-0 w-full h-full bg-gradient-to-b from-primary/55 via-primary/10 to-primary/20"
           aria-hidden="true"
         />
       </div>
@@ -160,13 +150,13 @@ const Hero: React.FC<HeroProps> = ({
             subtitle={subtitle}
             isVisible={isVisible}
             keywords={[
-              " sur mesure",
-              " en Polynésie",
-              " authentiques",
-              " inoubliables",
-              " dans le monde",
-              " sans agence",
-              " en toute sérénité",
+              " consciencieuse",
+              " expérimentée",
+              " efficace",
+              " accessible",
+              " passionnée",
+              " locale",
+              " à l'écoute",
             ]}
             onContactClick={onContactClick}
           />
@@ -176,4 +166,4 @@ const Hero: React.FC<HeroProps> = ({
   );
 };
 
-export default Hero;
+export default TravelPlannerHero;

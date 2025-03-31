@@ -11,6 +11,7 @@ interface ContactFormPopupProps {
 interface FormData {
   name: string;
   email: string;
+  whatsapp: string;
   message: string;
 }
 
@@ -23,6 +24,7 @@ const ContactFormPopup: React.FC<ContactFormPopupProps> = ({
   const [formData, setFormData] = useState<FormData>({
     name: "",
     email: "",
+    whatsapp: "",
     message: "",
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -35,6 +37,7 @@ const ContactFormPopup: React.FC<ContactFormPopupProps> = ({
   // Références pour les champs de formulaire
   const nameInputRef = useRef<HTMLInputElement>(null);
   const emailInputRef = useRef<HTMLInputElement>(null);
+  const whatsappInputRef = useRef<HTMLInputElement>(null);
   const messageInputRef = useRef<HTMLTextAreaElement>(null);
 
   // Fonction pour gérer les changements d'étape
@@ -44,7 +47,9 @@ const ContactFormPopup: React.FC<ContactFormPopupProps> = ({
         nameInputRef.current.focus();
       } else if (step === 1 && emailInputRef.current) {
         emailInputRef.current.focus();
-      } else if (step === 2 && messageInputRef.current) {
+      } else if (step === 2 && whatsappInputRef.current) {
+        whatsappInputRef.current.focus();
+      } else if (step === 3 && messageInputRef.current) {
         messageInputRef.current.focus();
       }
     }, 100);
@@ -116,7 +121,13 @@ const ContactFormPopup: React.FC<ContactFormPopupProps> = ({
     ) {
       return false;
     }
-    if (step === 2 && formData.message.trim().length < 10) {
+    if (
+      step === 2 &&
+      !/^\+[1-9]\d{1,14}$/.test(formData.whatsapp.replace(/\s/g, ""))
+    ) {
+      return false;
+    }
+    if (step === 3 && formData.message.trim().length < 10) {
       return false;
     }
     return true;
@@ -133,7 +144,7 @@ const ContactFormPopup: React.FC<ContactFormPopupProps> = ({
   const handleNext = () => {
     if (!validateCurrentStep()) return;
 
-    if (step < 2) {
+    if (step < 3) {
       setStep((prev) => prev + 1);
     } else {
       handleSubmit();
@@ -191,7 +202,7 @@ const ContactFormPopup: React.FC<ContactFormPopupProps> = ({
 
   // Réinitialiser le formulaire
   const handleReset = () => {
-    setFormData({ name: "", email: "", message: "" });
+    setFormData({ name: "", email: "", whatsapp: "", message: "" });
     setStep(0);
     setFormStatus({});
     setFormSubmitted(false);
@@ -207,6 +218,8 @@ const ContactFormPopup: React.FC<ContactFormPopupProps> = ({
       case 1:
         return "Votre adresse email";
       case 2:
+        return "Votre numéro WhatsApp";
+      case 3:
         return "Quel est votre message ?";
       default:
         return "Contactez-nous";
@@ -216,7 +229,7 @@ const ContactFormPopup: React.FC<ContactFormPopupProps> = ({
   // Texte du bouton selon l'étape
   const getButtonText = (): string => {
     if (formSubmitted) return "Nouveau message";
-    if (step === 2) return "Envoyer";
+    if (step === 3) return "Envoyer";
     return "Continuer";
   };
 
@@ -375,9 +388,54 @@ const ContactFormPopup: React.FC<ContactFormPopupProps> = ({
                       )}
                     </AnimatePresence>
 
-                    {/* Champ Message */}
+                    {/* Champ WhatsApp */}
                     <AnimatePresence>
                       {step >= 2 && (
+                        <motion.div
+                          key="whatsapp-field"
+                          initial={{ opacity: 0, y: 20 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          exit={{ opacity: 0, y: -20 }}
+                          transition={{ duration: 0.3 }}
+                          className={`w-full ${
+                            step > 2 ? "opacity-70 scale-90" : ""
+                          }`}
+                        >
+                          <label
+                            htmlFor="whatsapp"
+                            className="block text-sm font-medium text-secondary mb-2"
+                          >
+                            Numéro WhatsApp (avec indicatif)
+                          </label>
+                          <input
+                            ref={whatsappInputRef}
+                            id="whatsapp"
+                            name="whatsapp"
+                            type="tel"
+                            value={formData.whatsapp}
+                            onChange={handleInputChange}
+                            onKeyDown={handleKeyDown}
+                            className="w-full px-4 py-3 rounded-md border border-secondary/20 focus:outline-none focus:ring-2 focus:ring-secondary bg-primary/20 text-secondary placeholder-secondary/50"
+                            placeholder="Ex: +33 6 12 34 56 78"
+                            disabled={step !== 2}
+                          />
+                          {step === 2 &&
+                            formData.whatsapp &&
+                            !/^\+[1-9]\d{1,14}$/.test(
+                              formData.whatsapp.replace(/\s/g, "")
+                            ) && (
+                              <p className="text-red-400 text-sm mt-1">
+                                Format invalide. Utilisez le format
+                                international (ex: +33 6 12 34 56 78)
+                              </p>
+                            )}
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
+
+                    {/* Champ Message */}
+                    <AnimatePresence>
+                      {step >= 3 && (
                         <motion.div
                           key="message-field"
                           initial={{ opacity: 0, y: 20 }}
@@ -407,7 +465,7 @@ const ContactFormPopup: React.FC<ContactFormPopupProps> = ({
                             className="w-full px-4 py-3 rounded-md border border-secondary/20 focus:outline-none focus:ring-2 focus:ring-secondary bg-primary/20 text-secondary placeholder-secondary/50"
                             placeholder="Votre message"
                           ></textarea>
-                          {step === 2 &&
+                          {step === 3 &&
                             formData.message.trim().length < 10 &&
                             formData.message.trim().length > 0 && (
                               <p className="text-red-400 text-sm mt-1">

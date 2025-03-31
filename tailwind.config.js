@@ -18,6 +18,8 @@ module.exports = {
       },
       animation: {
         "pulse-slow": "pulse-slow 4s cubic-bezier(0.4, 0, 0.6, 1) infinite",
+        "pulse-intense":
+          "pulse-intense 7s cubic-bezier(0.4, 0, 0.6, 1) infinite",
         ripple: "ripple 1s linear forwards",
         "gradient-x": "gradient-x 3s ease infinite",
         "particle-float": "particle-float 8s ease-in-out infinite",
@@ -27,6 +29,10 @@ module.exports = {
         "pulse-slow": {
           "0%, 100%": { opacity: "1", transform: "scale(1)" },
           "50%": { opacity: "0.9", transform: "scale(0.98)" },
+        },
+        "pulse-intense": {
+          "0%, 100%": { opacity: "1", transform: "scale(1)" },
+          "50%": { opacity: "0.85", transform: "scale(0.97)" },
         },
         ripple: {
           "0%": { transform: "scale(0)", opacity: 0.7 },

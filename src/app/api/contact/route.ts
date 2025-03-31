@@ -93,7 +93,7 @@ export async function POST(request: NextRequest) {
           
           Je suis ravie de pouvoir vous accompagner dans la création de votre projet.
           
-          "Voyagez sereins, je trace votre chemin".
+          "Voyagez serein, je trace votre chemin".
           
           À très bientôt,
           Johanna, Travel Planneur
@@ -113,7 +113,7 @@ export async function POST(request: NextRequest) {
             
             <p>Je suis ravie de pouvoir vous accompagner dans la création de votre projet.</p>
             
-            <p style="font-style: italic; color: #00aed1;">"Voyagez sereins, je trace votre chemin".</p>
+            <p style="font-style: italic; color: #00aed1;">"Voyagez serein, je trace votre chemin".</p>
             
             <p style="margin-top: 20px;">À très bientôt,</p>
             <p><strong>Johanna, Travel Planneur</strong><br>

@@ -100,9 +100,9 @@ h6 {
 
 :root {
   /* Couleurs principales du site */
-  --primary: #00aed1; /* Cyan-500 */
-  --secondary: #c9fbff; /* Cyan très clair (anciennement tertiary) */
-  --tertiary: #e3dcd4; /* Beige clair (anciennement secondary) */
+  --primary: #00aed1;
+  --secondary: #01282b;
+  --tertiary: #e3dcd4;
 
   /* Radius variables */
   --radius: 0.625rem;
@@ -226,7 +226,7 @@ h6 {
 /* Assurons-nous que rien ne dépasse la largeur de l'écran */
 html,
 body {
-  max-width: 100vw;
+  width: 100%;
   overflow-x: hidden;
 }
 
@@ -238,7 +238,6 @@ body {
 /* Container responsive standard */
 .container {
   width: 100%;
-  max-width: 1280px;
   margin-left: auto;
   margin-right: auto;
   padding-left: 1rem;
@@ -256,5 +255,12 @@ body {
   .container {
     padding-left: 2rem;
     padding-right: 2rem;
+  }
+}
+
+@media (min-width: 1536px) {
+  .container {
+    padding-left: 3rem;
+    padding-right: 3rem;
   }
 }

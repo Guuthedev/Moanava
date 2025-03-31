@@ -11,7 +11,7 @@ import ContactFormPopup from "./ContactFormPopup";
 
 const menuLinks = [
   { name: "À propos", href: "/a-propos" },
-  { name: "Travel Planner", href: "/services" },
+  { name: "Travel Planner", href: "/travel-planner" },
 ];
 
 interface NavbarProps {
@@ -66,18 +66,20 @@ export default function Navbar({
     <>
       <nav
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-          isScrolled ? "py-1 bg-primary/95 shadow-lg" : "py-2 bg-primary/80"
+          isScrolled
+            ? "py-1 bg-primary/95 shadow-lg"
+            : "py-4 bg-primary/80 shadow-[0_4px_20px_-4px_rgba(0,0,0,0.3)]"
         } ${isContactOpen ? "pointer-events-none" : ""} overflow-hidden w-full`}
       >
         <div className="container mx-auto px-4">
           {/* Structure en 3 colonnes */}
           <div className="grid grid-cols-3 items-center">
             {/* Logo - Colonne 1 */}
-            <div className="flex justify-start">
+            <div className="flex justify-start lg:justify-start">
               <TransitionLink
                 href="/"
                 className={getTransitionClass(
-                  "relative group transition-all duration-300 hover:scale-105 transform-gpu"
+                  "relative group transition-all duration-300 hover:scale-105 transform-gpu mx-auto lg:mx-0"
                 )}
               >
                 <div className="relative w-32 h-8">
@@ -106,7 +108,7 @@ export default function Navbar({
             </div>
 
             {/* CTA + Menu mobile - Colonne 3 */}
-            <div className="flex items-center justify-end space-x-4">
+            <div className="flex items-center justify-end lg:justify-end">
               <ButtonCTA
                 size="sm"
                 className="hidden lg:flex"
@@ -118,7 +120,7 @@ export default function Navbar({
               {/* Bouton menu pour mobile et tablette */}
               <button
                 onClick={() => setIsMenuOpen(!isMenuOpen)}
-                className="p-2 rounded-full bg-secondary/10 hover:bg-secondary/20 transition-colors text-secondary lg:hidden"
+                className="p-2 rounded-full bg-secondary/10 hover:bg-secondary/20 transition-colors text-secondary lg:hidden mx-auto"
                 aria-label={isMenuOpen ? "Fermer le menu" : "Ouvrir le menu"}
               >
                 {isMenuOpen ? (
@@ -133,23 +135,32 @@ export default function Navbar({
 
         {/* Menu mobile */}
         <div
-          className={`lg:hidden ${
-            isMenuOpen ? "max-h-96 pb-4" : "max-h-0 overflow-hidden"
-          } transition-all duration-300 ease-in-out flex flex-col space-y-2`}
+          className={`lg:hidden fixed inset-0 bg-primary/80 backdrop-blur-sm ${
+            isMenuOpen ? "translate-y-0" : "translate-y-full"
+          } transition-transform duration-300 ease-in-out flex flex-col items-center justify-center`}
         >
-          <div className="flex flex-col space-y-3 mt-2">
+          {/* Bouton de fermeture */}
+          <button
+            onClick={() => setIsMenuOpen(false)}
+            className="absolute top-4 left-1/2 -translate-x-1/2 p-2 rounded-full bg-secondary/10 hover:bg-secondary/20 transition-colors text-secondary"
+            aria-label="Fermer le menu"
+          >
+            <X className="h-6 w-6" />
+          </button>
+
+          <div className="flex flex-col items-center space-y-6 mt-2 w-full">
             {menuLinks.map((link) => (
               <TransitionLink
                 key={link.name}
                 href={link.href}
-                className="text-secondary font-medium p-2 hover:bg-secondary/10 rounded-md transition-colors"
+                className="text-secondary font-medium p-4 hover:bg-secondary/10 rounded-md transition-colors text-center w-full text-xl"
                 onClick={() => setIsMenuOpen(false)}
               >
                 {link.name}
               </TransitionLink>
             ))}
 
-            <div className="pt-2">
+            <div className="pt-4 w-1/2">
               <ButtonCTA
                 size="sm"
                 className="w-full"

@@ -21,7 +21,7 @@ export default function NavLink({
   return (
     <TransitionLink
       href={href}
-      className={`text-secondary font-medium relative group transition-all duration-300 hover:scale-105 transform-gpu ${className} ${
+      className={`text-secondary font-medium relative group transition-all duration-300 transform-gpu pb-0.5 ${className} ${
         isActive ? "font-semibold" : ""
       }`}
     >

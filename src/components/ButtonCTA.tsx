@@ -34,12 +34,13 @@ export const ButtonCTA = React.forwardRef<HTMLButtonElement, ButtonCTAProps>(
     return (
       <button
         className={cn(
-          "relative overflow-hidden rounded-full transition-all duration-300 transform-gpu",
+          "relative overflow-hidden rounded-full transition-all duration-500 transform-gpu",
           "focus:outline-none focus:ring-2 focus:ring-secondary focus:ring-offset-2",
+          "animate-pulse-intense",
           variant === "primary" &&
-            "bg-secondary text-primary hover:bg-primary hover:text-secondary border border-secondary",
+            "bg-secondary text-primary hover:bg-primary hover:text-secondary hover:border-secondary hover:scale-105 hover:shadow-lg border border-primary",
           variant === "secondary" &&
-            "bg-primary text-secondary hover:bg-secondary hover:text-primary border border-secondary",
+            "bg-secondary text-primary hover:bg-primary hover:text-secondary hover:border-secondary hover:scale-105 hover:shadow-lg border border-primary",
           variant === "outline" &&
             "bg-transparent text-secondary hover:bg-secondary/10 border border-secondary/20",
           size === "sm" && "px-4 py-2 text-sm",

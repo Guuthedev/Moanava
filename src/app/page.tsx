@@ -52,14 +52,14 @@ export default function Home() {
       />
 
       {/* Conteneur principal avec défilement fluide */}
-      <div className="relative">
+      <div className="relative max-w-[2000px] mx-auto">
         <main className="relative">
           {/* Héro principal avec ouverture du formulaire de contact */}
           <section className="min-h-screen flex items-center justify-center">
             <Hero
               subtitle="Johanna, Travel Planner et créatrice de souvenirs, vous accompagne pour un voyage qui vous ressemble, en Polynésie et dans le monde entier."
-              videoUrl="/videos/vol-avion-opti.webm"
-              videoFallbackImage="/videos/vol-avion-opti.webp"
+              videoUrl="/videos/video-hero.webm"
+              videoFallbackImage="/videos/thumbnails/video-hero.webp"
               onContactClick={handleOpenContact}
             />
           </section>

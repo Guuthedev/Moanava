@@ -22,8 +22,8 @@ export default function HomeSEO() {
     priceRange: "€€",
     openingHours: "Mo-Fr 09:00-19:00",
     sameAs: [
-      "https://www.instagram.com/moanava/", // À adapter selon les réseaux sociaux réels
-      "https://www.facebook.com/moanava/", // À adapter selon les réseaux sociaux réels
+      "https://www.instagram.com/moanava_travel.planner", // À adapter selon les réseaux sociaux réels
+      "https://www.facebook.com/people/Moanava-Travel-Planner/61573268621737", // À adapter selon les réseaux sociaux réels
     ],
   };
 
