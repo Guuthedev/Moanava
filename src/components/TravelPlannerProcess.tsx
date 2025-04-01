@@ -44,7 +44,10 @@ export default function TravelPlannerProcess() {
             className="text-center mb-16"
           >
             <h2 className="text-3xl md:text-4xl font-bold font-display mb-6">
-              Comment ça marche ?
+              <span className="text-secondary">Comment</span>{" "}
+              <span className="text-primary [text-shadow:_0_1px_0_var(--secondary)]">
+                ça marche ?
+              </span>
             </h2>
             <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
               Un processus simple et efficace pour créer votre voyage sur mesure

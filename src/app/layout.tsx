@@ -1,18 +1,28 @@
-import ServerBody from "@/components/ServerBody";
+import Footer from "@/components/footer";
+import Navbar from "@/components/Navbar";
+import { InfoPopup } from "@/components/ui/info-popup";
+import { MouseEffects } from "@/components/ui/mouse-effects";
+import { ViewTransitionProvider } from "@/components/ViewTransitionProvider";
 import type { Metadata } from "next";
-import { Open_Sans } from "next/font/google";
+import { Montserrat, Open_Sans } from "next/font/google";
+import { Toaster } from "sonner";
 import "./globals.css";
+
+const montserrat = Montserrat({
+  subsets: ["latin"],
+  variable: "--font-montserrat",
+});
 
 const openSans = Open_Sans({
   subsets: ["latin"],
-  display: "swap",
+  variable: "--font-opensans",
 });
 
 // Génération des métadonnées côté serveur
 export const metadata: Metadata = {
-  title: "Moanava - Créateur de Souvenirs",
+  title: "Moanava - Voyages sur mesure en Polynésie",
   description:
-    "Voyagez serein en Polynésie avec Moanava. Je crée votre itinéraire sur mesure, adapté à vos envies et à votre rythme. Expert local, conseils personnalisés et support pendant votre séjour.",
+    "Découvrez la Polynésie française à travers des expériences authentiques et personnalisées. Johanna, votre Travel Planner locale, vous accompagne dans la création de souvenirs inoubliables.",
 };
 
 export default function RootLayout({
@@ -21,8 +31,19 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="fr" className={openSans.className}>
-      <ServerBody>{children}</ServerBody>
+    <html lang="fr" className={`${montserrat.variable} ${openSans.variable}`}>
+      <body className="font-opensans bg-background text-foreground cursor-none">
+        <ViewTransitionProvider>
+          <MouseEffects />
+          <div className="relative flex flex-col min-h-screen">
+            <Navbar />
+            <main className="flex-1">{children}</main>
+            <Footer />
+            <InfoPopup />
+            <Toaster />
+          </div>
+        </ViewTransitionProvider>
+      </body>
     </html>
   );
 }

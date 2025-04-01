@@ -220,6 +220,11 @@ h6 {
   }
   body {
     @apply bg-background text-foreground;
+    cursor: none !important;
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
   }
 }
 
@@ -263,4 +268,36 @@ body {
     padding-left: 3rem;
     padding-right: 3rem;
   }
+}
+
+/* Masquer le curseur par défaut sur tous les éléments */
+* {
+  cursor: none !important;
+}
+
+/* Exceptions pour les éléments qui nécessitent un curseur spécifique */
+a,
+button,
+input,
+select,
+textarea,
+[role="button"] {
+  cursor: none !important;
+}
+
+/* Empêcher la sélection du texte sur tout le site */
+* {
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+}
+
+/* Exceptions pour les champs de formulaire */
+input,
+textarea {
+  user-select: text;
+  -webkit-user-select: text;
+  -moz-user-select: text;
+  -ms-user-select: text;
 }

@@ -9,7 +9,7 @@ import JohannaSection from "@/components/JohannaSection";
 import Navbar from "@/components/Navbar";
 import TravelPlannerSection from "@/components/TravelPlannerSection";
 import { InfoPopup } from "@/components/ui/info-popup";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 export default function Home() {
   // État pour gérer l'ouverture/fermeture du formulaire de contact
@@ -19,26 +19,6 @@ export default function Home() {
   const handleOpenContact = () => {
     setIsContactOpen(true);
   };
-
-  // Configuration du défilement fluide
-  useEffect(() => {
-    const sections = document.querySelectorAll("section");
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.scrollIntoView({ behavior: "smooth" });
-          }
-        });
-      },
-      { threshold: 0.5 }
-    );
-
-    sections.forEach((section) => observer.observe(section));
-
-    return () => observer.disconnect();
-  }, []);
 
   return (
     <>
@@ -51,7 +31,7 @@ export default function Home() {
         setIsContactOpen={setIsContactOpen}
       />
 
-      {/* Conteneur principal avec défilement fluide */}
+      {/* Conteneur principal */}
       <div className="relative max-w-[2000px] mx-auto">
         <main className="relative">
           {/* Héro principal avec ouverture du formulaire de contact */}

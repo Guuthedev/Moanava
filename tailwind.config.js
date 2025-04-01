@@ -8,13 +8,114 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        primary: "#00aed1", // Cyan-500
-        secondary: "#c9fbff", // Cyan très clair (anciennement tertiary)
-        tertiary: "#e3dcd4", // Beige clair (anciennement secondary)
+        primary: {
+          DEFAULT: "#00aed1",
+          rgb: "0, 174, 209",
+        },
+        secondary: {
+          DEFAULT: "#c9fbff",
+          rgb: "201, 251, 255",
+        },
+        tertiary: {
+          DEFAULT: "#e3dcd4",
+          rgb: "227, 220, 212",
+        },
       },
       fontFamily: {
         montserrat: ["Montserrat", "sans-serif"],
         opensans: ["Open Sans", "sans-serif"],
+      },
+      typography: {
+        h1: {
+          css: {
+            fontSize: "3.5rem",
+            lineHeight: "1.2",
+            fontWeight: "700",
+            fontFamily: "Montserrat, sans-serif",
+            color: "var(--tw-colors-secondary)",
+            "@media (min-width: 768px)": {
+              fontSize: "4rem",
+            },
+            "@media (min-width: 1024px)": {
+              fontSize: "4.5rem",
+            },
+          },
+        },
+        h2: {
+          css: {
+            fontSize: "2.5rem",
+            lineHeight: "1.3",
+            fontWeight: "700",
+            fontFamily: "Montserrat, sans-serif",
+            color: "var(--tw-colors-secondary)",
+            "@media (min-width: 768px)": {
+              fontSize: "3rem",
+            },
+            "@media (min-width: 1024px)": {
+              fontSize: "3.5rem",
+            },
+          },
+        },
+        h3: {
+          css: {
+            fontSize: "2rem",
+            lineHeight: "1.4",
+            fontWeight: "600",
+            fontFamily: "Montserrat, sans-serif",
+            color: "var(--tw-colors-secondary)",
+            "@media (min-width: 768px)": {
+              fontSize: "2.25rem",
+            },
+            "@media (min-width: 1024px)": {
+              fontSize: "2.5rem",
+            },
+          },
+        },
+        h4: {
+          css: {
+            fontSize: "1.5rem",
+            lineHeight: "1.5",
+            fontWeight: "600",
+            fontFamily: "Montserrat, sans-serif",
+            color: "var(--tw-colors-secondary)",
+            "@media (min-width: 768px)": {
+              fontSize: "1.75rem",
+            },
+            "@media (min-width: 1024px)": {
+              fontSize: "2rem",
+            },
+          },
+        },
+        h5: {
+          css: {
+            fontSize: "1.25rem",
+            lineHeight: "1.6",
+            fontWeight: "600",
+            fontFamily: "Montserrat, sans-serif",
+            color: "var(--tw-colors-secondary)",
+            "@media (min-width: 768px)": {
+              fontSize: "1.5rem",
+            },
+            "@media (min-width: 1024px)": {
+              fontSize: "1.75rem",
+            },
+          },
+        },
+        h6: {
+          css: {
+            fontSize: "1rem",
+            lineHeight: "1.6",
+            fontWeight: "600",
+            fontFamily: "Montserrat, sans-serif",
+            color: "var(--tw-colors-secondary)",
+            "@media (min-width: 768px)": {
+              fontSize: "1.25rem",
+            },
+            "@media (min-width: 1024px)": {
+              fontSize: "1.5rem",
+            },
+          },
+        },
       },
       animation: {
         "pulse-slow": "pulse-slow 4s cubic-bezier(0.4, 0, 0.6, 1) infinite",
@@ -75,5 +176,5 @@ module.exports = {
       },
     },
   },
-  plugins: [],
+  plugins: [require("@tailwindcss/typography")],
 };

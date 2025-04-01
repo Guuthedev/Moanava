@@ -82,7 +82,7 @@ export default function Navbar({
                   "relative group transition-all duration-300 hover:scale-105 transform-gpu mx-auto lg:mx-0"
                 )}
               >
-                <div className="relative w-32 h-8">
+                <div className="relative w-48 h-12">
                   <Image
                     src="/images/logo/logo-big-moanava.webp"
                     alt="Moanava"
@@ -114,7 +114,7 @@ export default function Navbar({
                 className="hidden lg:flex"
                 onClick={handleOpenContact}
               >
-                Mon Voyage sur mesure
+                Parlons de votre voyage !
               </ButtonCTA>
 
               {/* Bouton menu pour mobile et tablette */}
@@ -166,7 +166,7 @@ export default function Navbar({
                 className="w-full"
                 onClick={handleOpenContact}
               >
-                Voyage sur-mesure
+                Parlons de votre voyage !
               </ButtonCTA>
             </div>
           </div>

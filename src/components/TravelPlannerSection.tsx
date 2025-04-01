@@ -59,9 +59,11 @@ export default function TravelPlannerSection() {
           >
             {/* En-tête */}
             <div className="text-center space-y-4">
-              <h2 className="text-4xl lg:text-5xl font-bold text-primary font-display">
-                <span className="text-secondary">Pourquoi choisir</span>
-                <span className="block">un Travel Planner ?</span>
+              <h2 className="text-4xl lg:text-5xl font-bold font-display">
+                <span className="text-secondary">Voyagez</span>{" "}
+                <span className="text-primary [text-shadow:_0_1px_0_var(--secondary)]">
+                  sur mesure en Polynésie
+                </span>
               </h2>
 
               <p className="text-lg text-secondary/80 leading-relaxed max-w-3xl mx-auto">

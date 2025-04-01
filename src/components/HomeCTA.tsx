@@ -22,8 +22,10 @@ export default function HomeCTA({ onContactClick }: HomeCTAProps) {
             transition={{ duration: 0.8, ease: "easeOut" }}
           >
             <h2 className="text-4xl lg:text-5xl font-bold font-display mb-6">
-              Prêt à vivre votre <span className="text-primary">aventure</span>{" "}
-              ?
+              <span className="text-secondary">Prêt à</span>{" "}
+              <span className="text-primary [text-shadow:_0_1px_0_var(--secondary)]">
+                commencer votre voyage ?
+              </span>
             </h2>
 
             <p className="text-xl text-secondary/90 max-w-3xl mx-auto mb-10">

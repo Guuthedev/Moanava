@@ -116,7 +116,6 @@ const Hero: React.FC<HeroProps> = ({
   const [isVisible, setIsVisible] = useState<boolean>(true);
 
   useEffect(() => {
-    // Intersection Observer
     const observer = new IntersectionObserver(
       (entries) => {
         if (entries[0].isIntersecting) {
@@ -136,7 +135,7 @@ const Hero: React.FC<HeroProps> = ({
   return (
     <section className="relative w-full min-h-screen flex items-center justify-center">
       {/* Conteneur de l'image de fond */}
-      <div className="fixed inset-0 w-full h-full -z-10">
+      <div className="fixed inset-0 w-full h-full" style={{ zIndex: -10 }}>
         {/* Image de fond */}
         <Image
           src="/images/johanna/johanna-mer.webp"
@@ -145,16 +144,10 @@ const Hero: React.FC<HeroProps> = ({
           className="object-cover object-top"
           priority
         />
-
-        {/* Overlay gradient */}
-        <div
-          className="absolute inset-0 w-full h-full bg-gradient-to-b from-primary-dark/70 via-primary-dark/30 to-primary-dark/10"
-          aria-hidden="true"
-        />
       </div>
 
       {/* Contenu */}
-      <div className="container mx-auto relative z-20 px-4 max-w-[2000px]">
+      <div className="container mx-auto relative px-4 max-w-[2000px]">
         <SectionTransition direction="up">
           <HeroContent
             subtitle={subtitle}

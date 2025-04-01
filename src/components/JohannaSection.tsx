@@ -1,91 +1,87 @@
 "use client";
 
-import { CardBody, CardContainer, CardItem } from "@/components/ui/3d-card";
 import { motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
 import ButtonCTA from "./ButtonCTA";
+import SectionTransition from "./SectionTransition";
+import { CardBody, CardContainer, CardItem } from "./ui/3d-card";
 
 export default function JohannaSection() {
-  const [isHighlighted, setIsHighlighted] = useState(false);
-
-  const handleImageClick = () => {
-    setIsHighlighted(true);
-    setTimeout(() => setIsHighlighted(false), 1000);
-  };
-
   return (
-    <div className="container mx-auto px-4">
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-24 items-center max-w-full">
-        {/* Image avec effet 3D */}
-        <Link
-          href="/a-propos"
-          className="lg:order-1"
-          onClick={handleImageClick}
-        >
-          <CardContainer>
-            <CardBody
-              className={`bg-white/10 backdrop-blur-sm relative group/card dark:hover:shadow-2xl dark:hover:shadow-primary/[0.1] dark:bg-black/20 dark:border-white/[0.2] border-black/[0.1] w-auto sm:w-[30rem] h-auto rounded-xl p-6 border transition-all duration-300 ${
-                isHighlighted ? "ring-4 ring-primary" : ""
-              }`}
-            >
-              <CardItem
-                translateZ="50"
-                className="w-full h-[600px] relative rounded-xl overflow-hidden"
-              >
-                <Image
-                  src="/images/johanna/johanna-main.webp"
-                  alt="Johanna, votre Travel Planner professionnelle près d'un arbre tropical"
-                  fill
-                  className="object-cover"
-                  sizes="(max-width: 768px) 100vw, 50vw"
-                  priority
-                />
-              </CardItem>
-            </CardBody>
-          </CardContainer>
-        </Link>
+    <SectionTransition direction="up">
+      <div className="container mx-auto px-4 min-h-screen flex items-center">
+        <div className="flex flex-col lg:flex-row items-center gap-8 lg:gap-12 w-full">
+          {/* Image avec effet 3D */}
+          <motion.div
+            className="lg:order-1 relative w-full lg:w-1/2"
+            initial={{ opacity: 0, x: -30 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8, ease: "easeOut" }}
+          >
+            <Link href="/a-propos" aria-label="En savoir plus sur Johanna">
+              <CardContainer className="w-full">
+                <CardBody className="w-full">
+                  <CardItem
+                    translateZ={20}
+                    className="w-full aspect-square rounded-2xl overflow-hidden"
+                  >
+                    <Image
+                      src="/images/johanna/johanna-main.webp"
+                      alt="Johanna, votre Travel Planner professionnelle"
+                      fill
+                      className="object-cover"
+                      priority
+                    />
+                  </CardItem>
+                </CardBody>
+              </CardContainer>
+            </Link>
+          </motion.div>
 
-        {/* Texte de présentation */}
-        <motion.div
-          className="lg:order-2 flex flex-col justify-center min-h-[600px] text-left lg:pl-8"
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8, ease: "easeOut" }}
-        >
-          <div className="space-y-6">
-            <h2 className="text-4xl lg:text-5xl font-bold text-secondary font-display">
-              <span className="block">Johanna,</span>
-              <span className="text-primary">Votre Travel Planner</span>
-            </h2>
+          {/* Texte */}
+          <motion.div
+            className="lg:order-2 flex flex-col justify-center text-center lg:text-left lg:pl-8 max-w-2xl mx-auto lg:mx-0"
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8, ease: "easeOut" }}
+          >
+            <div className="space-y-6">
+              <h2 className="text-4xl lg:text-5xl font-bold font-display">
+                <span className="text-secondary">Bonjour,</span>{" "}
+                <span className="text-primary [text-shadow:_0_1px_0_var(--secondary)]">
+                  je suis Johanna
+                </span>
+              </h2>
 
-            <p className="text-lg text-secondary/80 leading-relaxed">
-              Passionnée de voyages et amoureuse de la Polynésie française, je
-              vous accompagne dans la création d&apos;expériences authentiques
-              et personnalisées. Entre mon expertise locale et ma connaissance
-              des destinations internationales, je crée pour vous des
-              itinéraires uniques qui vous ressemblent.
-            </p>
+              <p className="text-lg text-secondary/80 leading-relaxed">
+                Passionnée de voyages et amoureuse de la Polynésie française, je
+                vous accompagne dans la création d&apos;expériences authentiques
+                et personnalisées. Entre mon expertise locale et ma connaissance
+                des destinations internationales, je crée pour vous des
+                itinéraires uniques qui vous ressemblent.
+              </p>
 
-            <p className="text-lg text-secondary/80 leading-relaxed">
-              Mon approche privilégie l&apos;échange, l&apos;écoute et
-              l&apos;adaptation à vos envies pour des souvenirs qui resteront
-              gravés dans votre mémoire.
-            </p>
+              <p className="text-lg text-secondary/80 leading-relaxed">
+                Mon approche privilégie l&apos;échange, l&apos;écoute et
+                l&apos;adaptation à vos envies pour des souvenirs qui resteront
+                gravés dans votre mémoire.
+              </p>
 
-            <div className="pt-6">
-              <Link
-                href="/a-propos"
-                aria-label="En savoir plus sur Johanna et son parcours"
-              >
-                <ButtonCTA size="md">Découvrir mon parcours</ButtonCTA>
-              </Link>
+              <div className="pt-6">
+                <Link
+                  href="/a-propos"
+                  aria-label="En savoir plus sur Johanna et son parcours"
+                >
+                  <ButtonCTA size="md">Découvrir mon parcours</ButtonCTA>
+                </Link>
+              </div>
             </div>
-          </div>
-        </motion.div>
+          </motion.div>
+        </div>
       </div>
-    </div>
+    </SectionTransition>
   );
 }

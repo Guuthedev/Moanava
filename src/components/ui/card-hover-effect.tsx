@@ -19,7 +19,7 @@ export const CardHoverEffect = ({ items, className }: CardHoverEffectProps) => {
   return (
     <div
       className={cn(
-        "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4",
+        "grid grid-cols-1 md:grid-cols-2 gap-6 py-10 max-w-5xl mx-auto",
         className
       )}
     >
@@ -27,42 +27,38 @@ export const CardHoverEffect = ({ items, className }: CardHoverEffectProps) => {
         <TransitionLink
           key={idx}
           href="/travel-planner"
-          className="block h-full w-full"
+          className="relative group block p-2 h-full w-full"
+          onMouseEnter={() => setHoveredIndex(idx)}
+          onMouseLeave={() => setHoveredIndex(null)}
         >
-          <div
-            className="relative group block p-2 h-full w-full"
-            onMouseEnter={() => setHoveredIndex(idx)}
-            onMouseLeave={() => setHoveredIndex(null)}
-          >
-            <AnimatePresence>
-              {hoveredIndex === idx && (
-                <motion.span
-                  className="absolute inset-0 h-full w-full bg-primary/10 block rounded-3xl"
-                  layoutId="hoverBackground"
-                  initial={{ opacity: 0 }}
-                  animate={{
-                    opacity: 1,
-                    transition: { duration: 0.15 },
-                  }}
-                  exit={{
-                    opacity: 0,
-                    transition: { duration: 0.15, delay: 0.2 },
-                  }}
-                />
-              )}
-            </AnimatePresence>
-            <Card>
-              <div className="flex flex-col items-start gap-3">
-                <div className="bg-primary/10 p-2 rounded-lg group-hover:bg-primary/20 transition-colors duration-300">
-                  <item.icon className="h-5 w-5 text-primary" />
-                </div>
-                <div>
-                  <CardTitle>{item.title}</CardTitle>
-                  <CardDescription>{item.description}</CardDescription>
-                </div>
+          <AnimatePresence>
+            {hoveredIndex === idx && (
+              <motion.span
+                className="absolute inset-0 h-full w-full bg-secondary/20 backdrop-blur-md block rounded-3xl"
+                layoutId="hoverBackground"
+                initial={{ opacity: 0 }}
+                animate={{
+                  opacity: 1,
+                  transition: { duration: 0.15 },
+                }}
+                exit={{
+                  opacity: 0,
+                  transition: { duration: 0.15, delay: 0.2 },
+                }}
+              />
+            )}
+          </AnimatePresence>
+          <Card>
+            <div className="flex flex-col items-center text-center gap-4">
+              <div className="bg-secondary/10 p-3 rounded-xl group-hover:bg-secondary/20 transition-all duration-300">
+                <item.icon className="h-6 w-6 text-secondary" />
               </div>
-            </Card>
-          </div>
+              <div>
+                <CardTitle>{item.title}</CardTitle>
+                <CardDescription>{item.description}</CardDescription>
+              </div>
+            </div>
+          </Card>
         </TransitionLink>
       ))}
     </div>
@@ -79,7 +75,7 @@ const Card = ({
   return (
     <div
       className={cn(
-        "rounded-2xl h-full w-full p-4 overflow-hidden bg-primary/5 border border-primary/10 group-hover:border-primary/20 relative z-20 transition-all duration-300",
+        "rounded-2xl h-full w-full p-4 overflow-hidden bg-primary/95 backdrop-blur-sm border border-secondary/20 group-hover:border-secondary/40 relative z-20 transition-all duration-300",
         className
       )}
     >
@@ -99,7 +95,10 @@ const CardTitle = ({
 }) => {
   return (
     <h4
-      className={cn("text-secondary font-bold tracking-wide mt-2", className)}
+      className={cn(
+        "text-secondary font-bold tracking-wide mt-4 text-lg",
+        className
+      )}
     >
       {children}
     </h4>
@@ -116,7 +115,7 @@ const CardDescription = ({
   return (
     <p
       className={cn(
-        "mt-2 text-secondary/70 tracking-wide leading-relaxed text-sm",
+        "mt-2 text-secondary/70 tracking-wide leading-relaxed text-base",
         className
       )}
     >

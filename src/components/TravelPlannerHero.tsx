@@ -32,22 +32,22 @@ const HeroContent: React.FC<HeroContentProps> = ({
       {/* Titre principal (h1) avec effet de révélation */}
       <motion.h1
         id="hero-heading"
-        className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight mb-6 text-secondary font-display relative z-10"
+        className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight mb-6 text-secondary font-display"
         initial={{ opacity: 0, y: 30 }}
         animate={isVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
         transition={{ duration: 1.5, delay: 0.5, ease: "easeOut" }}
       >
         <span className="inline-flex flex-col items-center justify-center gap-y-2">
           Johanna
-          <span className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl relative z-10">
+          <span className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl">
             Travel Planner
           </span>
           <FlipWords
             words={keywords}
             duration={2500}
-            className="text-primary/90 relative z-10"
+            className="text-primary/90"
           />
-          <span className="text-xl sm:text-2xl md:text-3xl lg:text-4xl relative z-10">
+          <span className="text-xl sm:text-2xl md:text-3xl lg:text-4xl">
             en Polynésie, et ailleurs
           </span>
         </span>
@@ -61,7 +61,7 @@ const HeroContent: React.FC<HeroContentProps> = ({
         transition={{ duration: 1.2, delay: 1.8 }}
       >
         <motion.p
-          className="text-lg sm:text-xl md:text-2xl text-secondary font-medium max-w-3xl mx-auto relative z-10"
+          className="text-lg sm:text-xl md:text-2xl text-secondary font-medium max-w-3xl mx-auto"
           initial={{ opacity: 0, y: 20 }}
           animate={isVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
           transition={{ duration: 1, delay: 2, ease: "easeOut" }}
@@ -103,7 +103,6 @@ const TravelPlannerHero: React.FC<HeroProps> = ({
   const [isVisible, setIsVisible] = useState<boolean>(true);
 
   useEffect(() => {
-    // Intersection Observer
     const observer = new IntersectionObserver(
       (entries) => {
         if (entries[0].isIntersecting) {
@@ -126,7 +125,7 @@ const TravelPlannerHero: React.FC<HeroProps> = ({
       className="relative w-full min-h-screen flex items-center justify-center"
     >
       {/* Conteneur de l'image de fond */}
-      <div className="fixed inset-0 w-full h-full -z-10">
+      <div className="fixed inset-0 w-full h-full" style={{ zIndex: -10 }}>
         {/* Image de fond */}
         <Image
           src="/images/johanna/massage.webp"
@@ -135,16 +134,10 @@ const TravelPlannerHero: React.FC<HeroProps> = ({
           className="object-cover"
           priority
         />
-
-        {/* Overlay gradient */}
-        <div
-          className="absolute inset-0 w-full h-full bg-gradient-to-b from-primary/55 via-primary/10 to-primary/20"
-          aria-hidden="true"
-        />
       </div>
 
       {/* Contenu */}
-      <div className="container mx-auto relative z-20 px-4 max-w-[2000px]">
+      <div className="container mx-auto relative px-4 max-w-[2000px]">
         <SectionTransition direction="up">
           <HeroContent
             subtitle={subtitle}

@@ -4,7 +4,7 @@ import { Check } from "lucide-react";
 import ButtonCTA from "./ButtonCTA";
 import SectionTransition from "./SectionTransition";
 
-const services = [
+const formules = [
   {
     title: "Formule Va'a",
     description: "Du simple au long week-end",
@@ -52,14 +52,17 @@ const services = [
   },
 ];
 
-export default function TravelPlannerServices() {
+export default function TravelPlannerFormules() {
   return (
-    <section className="relative h-screen flex items-center justify-center">
-      <div className="container mx-auto px-4">
-        <SectionTransition direction="up">
+    <SectionTransition direction="up">
+      <section className="py-20">
+        <div className="container mx-auto px-4">
           <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold font-display mb-6">
-              Nos Formules de Voyage
+            <h2 className="text-4xl lg:text-5xl font-bold font-display mb-6">
+              <span className="text-secondary">Nos</span>{" "}
+              <span className="text-primary [text-shadow:_0_1px_0_var(--secondary)]">
+                formules
+              </span>
             </h2>
             <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
               Choisissez la formule qui correspond le mieux à vos envies de
@@ -67,13 +70,13 @@ export default function TravelPlannerServices() {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
-            {services.map((service, index) => (
-              <div key={service.title}>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {formules.map((formule) => (
+              <div key={formule.title}>
                 <div
-                  className={`relative ${service.popular ? "lg:-mt-4" : ""}`}
+                  className={`relative ${formule.popular ? "lg:-mt-4" : ""}`}
                 >
-                  {service.popular && (
+                  {formule.popular && (
                     <div className="absolute -top-4 left-1/2 -translate-x-1/2">
                       <span className="bg-secondary text-primary px-4 py-1 rounded-full text-sm font-medium">
                         La plus populaire
@@ -81,25 +84,25 @@ export default function TravelPlannerServices() {
                     </div>
                   )}
                   <div className="bg-card/80 backdrop-blur-sm rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-300">
-                    <h3 className="text-2xl font-bold mb-2">{service.title}</h3>
+                    <h3 className="text-2xl font-bold mb-2">{formule.title}</h3>
                     <p className="text-muted-foreground mb-4">
-                      {service.description}
+                      {formule.description}
                     </p>
                     <div className="space-y-3 mb-6">
                       <div className="flex items-center gap-2">
                         <Check className="w-5 h-5 text-secondary" />
-                        <span>{service.duration}</span>
+                        <span>{formule.duration}</span>
                       </div>
                       <div className="flex items-center gap-2">
                         <Check className="w-5 h-5 text-secondary" />
-                        <span>{service.capacity}</span>
+                        <span>{formule.capacity}</span>
                       </div>
                     </div>
                     <div className="text-3xl font-bold mb-6">
-                      {service.price}
+                      {formule.price}
                     </div>
                     <ul className="space-y-3 mb-8">
-                      {service.features.map((feature) => (
+                      {formule.features.map((feature) => (
                         <li key={feature} className="flex items-center gap-2">
                           <Check className="w-5 h-5 text-secondary" />
                           <span>{feature}</span>
@@ -108,7 +111,7 @@ export default function TravelPlannerServices() {
                     </ul>
                     <ButtonCTA
                       className="w-full"
-                      variant={service.popular ? "primary" : "outline"}
+                      variant={formule.popular ? "primary" : "outline"}
                     >
                       Réserver une consultation
                     </ButtonCTA>
@@ -118,7 +121,7 @@ export default function TravelPlannerServices() {
             ))}
           </div>
 
-          <div className="text-center">
+          <div className="text-center mt-16">
             <h3 className="text-2xl font-bold mb-4">
               Besoin d&apos;une formule personnalisée ?
             </h3>
@@ -134,8 +137,8 @@ export default function TravelPlannerServices() {
               Demander un devis personnalisé
             </ButtonCTA>
           </div>
-        </SectionTransition>
-      </div>
-    </section>
+        </div>
+      </section>
+    </SectionTransition>
   );
 }
