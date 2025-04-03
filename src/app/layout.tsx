@@ -1,6 +1,5 @@
 import Footer from "@/components/footer";
 import Navbar from "@/components/Navbar";
-import { InfoPopup } from "@/components/ui/info-popup";
 import { MouseEffects } from "@/components/ui/mouse-effects";
 import { ViewTransitionProvider } from "@/components/ViewTransitionProvider";
 import type { Metadata } from "next";
@@ -32,14 +31,13 @@ export default function RootLayout({
 }) {
   return (
     <html lang="fr" className={`${montserrat.variable} ${openSans.variable}`}>
-      <body className="font-opensans bg-background text-foreground cursor-none">
+      <body className="font-opensans bg-background text-foreground cursor-none lg:cursor-none sm:cursor-auto md:cursor-auto">
         <ViewTransitionProvider>
           <MouseEffects />
           <div className="relative flex flex-col min-h-screen">
             <Navbar />
             <main className="flex-1">{children}</main>
             <Footer />
-            <InfoPopup />
             <Toaster />
           </div>
         </ViewTransitionProvider>

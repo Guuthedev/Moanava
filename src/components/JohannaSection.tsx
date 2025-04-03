@@ -10,22 +10,26 @@ import { CardBody, CardContainer, CardItem } from "./ui/3d-card";
 export default function JohannaSection() {
   return (
     <SectionTransition direction="up">
-      <div className="container mx-auto px-4 min-h-screen flex items-center">
-        <div className="flex flex-col lg:flex-row items-center gap-8 lg:gap-12 w-full">
-          {/* Image avec effet 3D */}
+      <div className="w-full max-w-[2000px] mx-auto px-4 min-h-screen flex items-center">
+        <div className="flex flex-col lg:flex-row items-center gap-8 lg:gap-0 w-full">
+          {/* Image avec effet 3D - Moitié gauche */}
           <motion.div
-            className="lg:order-1 relative w-full lg:w-1/2"
+            className="w-full lg:w-1/2 flex justify-center items-center"
             initial={{ opacity: 0, x: -30 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8, ease: "easeOut" }}
           >
-            <Link href="/a-propos" aria-label="En savoir plus sur Johanna">
+            <Link
+              href="/a-propos"
+              aria-label="En savoir plus sur Johanna"
+              className="w-full max-w-xl lg:max-w-2xl xl:max-w-3xl"
+            >
               <CardContainer className="w-full">
-                <CardBody className="w-full">
+                <CardBody className="w-full aspect-square">
                   <CardItem
                     translateZ={20}
-                    className="w-full aspect-square rounded-2xl overflow-hidden"
+                    className="w-full h-full rounded-2xl overflow-hidden"
                   >
                     <Image
                       src="/images/johanna/johanna-main.webp"
@@ -40,17 +44,17 @@ export default function JohannaSection() {
             </Link>
           </motion.div>
 
-          {/* Texte */}
+          {/* Texte - Moitié droite */}
           <motion.div
-            className="lg:order-2 flex flex-col justify-center text-center lg:text-left lg:pl-8 max-w-2xl mx-auto lg:mx-0"
+            className="w-full lg:w-1/2 flex flex-col justify-center text-center lg:text-left max-w-2xl mx-auto lg:mx-0 lg:pl-12"
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8, ease: "easeOut" }}
           >
             <div className="space-y-6">
-              <h2 className="text-4xl lg:text-5xl font-bold font-display">
-                <span className="text-secondary">Bonjour,</span>{" "}
+              <h2 className="text-4xl lg:text-5xl font-bold font-display flex flex-col lg:items-start items-center">
+                <span className="text-secondary">Bonjour,</span>
                 <span className="text-primary [text-shadow:_0_1px_0_var(--secondary)]">
                   je suis Johanna
                 </span>
@@ -70,7 +74,7 @@ export default function JohannaSection() {
                 gravés dans votre mémoire.
               </p>
 
-              <div className="pt-6">
+              <div className="pt-6 flex lg:justify-start justify-center">
                 <Link
                   href="/a-propos"
                   aria-label="En savoir plus sur Johanna et son parcours"

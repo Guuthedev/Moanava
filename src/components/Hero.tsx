@@ -135,15 +135,26 @@ const Hero: React.FC<HeroProps> = ({
   return (
     <section className="relative w-full min-h-screen flex items-center justify-center">
       {/* Conteneur de l'image de fond */}
-      <div className="fixed inset-0 w-full h-full" style={{ zIndex: -10 }}>
-        {/* Image de fond */}
-        <Image
-          src="/images/johanna/johanna-mer.webp"
-          alt="Johanna au bord de la mer"
-          fill
-          className="object-cover object-top"
-          priority
-        />
+      <div
+        className="fixed inset-0 w-full h-full overflow-hidden"
+        style={{ zIndex: -10 }}
+      >
+        {/* Image de fond avec flou */}
+        <div className="absolute inset-0 backdrop-blur-[8px]">
+          <Image
+            src="/images/destinations/Hero.webp"
+            alt="Johanna au bord de la mer"
+            fill
+            className="object-cover object-top"
+            priority
+          />
+        </div>
+        {/* Overlay avec dégradé radial et dégradés directionnels */}
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_0%,var(--primary)_50%/30%,transparent_100%)]" />
+        <div className="absolute inset-0 bg-gradient-to-t from-transparent via-primary/20 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-primary/20 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-primary/20 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-l from-transparent via-primary/20 to-transparent" />
       </div>
 
       {/* Contenu */}

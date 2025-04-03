@@ -25,12 +25,18 @@
 }
 
 /* Style pour les cartes et éléments de navigation */
-.nav-item {
-  view-transition-name: nav-item;
+.nav-item-à-propos {
+  view-transition-name: nav-item-a-propos;
 }
 
-::view-transition-old(nav-item),
-::view-transition-new(nav-item) {
+.nav-item-travel-planner {
+  view-transition-name: nav-item-travel-planner;
+}
+
+::view-transition-old(nav-item-a-propos),
+::view-transition-new(nav-item-a-propos),
+::view-transition-old(nav-item-travel-planner),
+::view-transition-new(nav-item-travel-planner) {
   animation-duration: 0.4s;
 }
 

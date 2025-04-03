@@ -100,7 +100,13 @@ export default function Navbar({
                 <NavLink
                   key={link.name}
                   href={link.href}
-                  className={isSupported ? "nav-item" : ""}
+                  className={
+                    isSupported
+                      ? `nav-item-${link.name
+                          .toLowerCase()
+                          .replace(/\s+/g, "-")}`
+                      : ""
+                  }
                 >
                   {link.name}
                 </NavLink>
@@ -120,13 +126,13 @@ export default function Navbar({
               {/* Bouton menu pour mobile et tablette */}
               <button
                 onClick={() => setIsMenuOpen(!isMenuOpen)}
-                className="p-2 rounded-full bg-secondary/10 hover:bg-secondary/20 transition-colors text-secondary lg:hidden mx-auto"
+                className="p-4 sm:p-5 rounded-full bg-secondary/10 hover:bg-secondary/20 transition-colors text-secondary lg:hidden touch-manipulation"
                 aria-label={isMenuOpen ? "Fermer le menu" : "Ouvrir le menu"}
               >
                 {isMenuOpen ? (
-                  <X className="h-5 w-5" />
+                  <X className="h-7 w-7 sm:h-8 sm:w-8" />
                 ) : (
-                  <Menu className="h-5 w-5" />
+                  <Menu className="h-7 w-7 sm:h-8 sm:w-8" />
                 )}
               </button>
             </div>
@@ -139,31 +145,40 @@ export default function Navbar({
             isMenuOpen ? "translate-y-0" : "translate-y-full"
           } transition-transform duration-300 ease-in-out flex flex-col items-center justify-center`}
         >
-          {/* Bouton de fermeture */}
-          <button
-            onClick={() => setIsMenuOpen(false)}
-            className="absolute top-4 left-1/2 -translate-x-1/2 p-2 rounded-full bg-secondary/10 hover:bg-secondary/20 transition-colors text-secondary"
-            aria-label="Fermer le menu"
-          >
-            <X className="h-6 w-6" />
-          </button>
+          {/* Bouton de fermeture - On le positionne à la même position que le bouton d'ouverture */}
+          <div className="absolute top-0 left-0 right-0 py-4 px-4 w-full">
+            <div className="container mx-auto px-4">
+              <div className="grid grid-cols-3 items-center">
+                <div className="col-span-2"></div>
+                <div className="flex justify-end">
+                  <button
+                    onClick={() => setIsMenuOpen(false)}
+                    className="p-4 sm:p-5 rounded-full bg-secondary/10 hover:bg-secondary/20 transition-colors text-secondary touch-manipulation"
+                    aria-label="Fermer le menu"
+                  >
+                    <X className="h-7 w-7 sm:h-8 sm:w-8" />
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
 
-          <div className="flex flex-col items-center space-y-6 mt-2 w-full">
+          <div className="flex flex-col items-center space-y-6 mt-20 w-full">
             {menuLinks.map((link) => (
               <TransitionLink
                 key={link.name}
                 href={link.href}
-                className="text-secondary font-medium p-4 hover:bg-secondary/10 rounded-md transition-colors text-center w-full text-xl"
+                className="text-secondary font-medium p-5 hover:bg-secondary/10 rounded-md transition-colors text-center w-full text-xl"
                 onClick={() => setIsMenuOpen(false)}
               >
                 {link.name}
               </TransitionLink>
             ))}
 
-            <div className="pt-4 w-1/2">
+            <div className="pt-4 w-5/6 sm:w-2/3">
               <ButtonCTA
-                size="sm"
-                className="w-full"
+                size="lg"
+                className="w-full py-4"
                 onClick={handleOpenContact}
               >
                 Parlons de votre voyage !

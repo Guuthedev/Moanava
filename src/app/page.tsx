@@ -1,7 +1,6 @@
 "use client";
 
 import ContactFormPopup from "@/components/ContactFormPopup";
-import Footer from "@/components/footer";
 import Hero from "@/components/Hero";
 import HomeCTA from "@/components/HomeCTA";
 import HomeSEO from "@/components/HomeSEO";
@@ -38,8 +37,6 @@ export default function Home() {
           <section className="min-h-screen flex items-center justify-center">
             <Hero
               subtitle="Johanna, Travel Planner et créatrice de souvenirs, vous accompagne pour un voyage qui vous ressemble, en Polynésie et dans le monde entier."
-              videoUrl="/videos/video-hero.webm"
-              videoFallbackImage="/videos/thumbnails/video-hero.webp"
               onContactClick={handleOpenContact}
             />
           </section>
@@ -60,9 +57,6 @@ export default function Home() {
           </section>
         </main>
       </div>
-
-      {/* Footer */}
-      <Footer />
 
       {/* Popup de formulaire de contact centralisé */}
       <ContactFormPopup

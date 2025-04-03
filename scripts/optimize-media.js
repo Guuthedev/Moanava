@@ -35,6 +35,9 @@ const CONFIG = {
     {
       sourceDir: path.join(process.cwd(), "public", "images", "divers"),
     },
+    {
+      sourceDir: path.join(process.cwd(), "public", "images", "curseur"),
+    },
   ],
   imageQuality: 80,
 

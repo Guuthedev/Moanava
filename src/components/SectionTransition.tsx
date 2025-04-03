@@ -1,44 +1,84 @@
 "use client";
 
-import { motion, useScroll, useTransform } from "framer-motion";
-import { useRef } from "react";
+import { motion } from "framer-motion";
+import { useEffect, useState } from "react";
+
+type Direction = "up" | "down" | "left" | "right";
 
 interface SectionTransitionProps {
   children: React.ReactNode;
+  direction?: Direction;
+  delay?: number;
+  duration?: number;
   className?: string;
-  direction?: "up" | "down";
+  id?: string;
 }
+
+const getTransitionValues = (
+  direction: Direction
+): { initial: { y?: number; x?: number; opacity: number } } => {
+  switch (direction) {
+    case "up":
+      return { initial: { y: 30, opacity: 0 } };
+    case "down":
+      return { initial: { y: -30, opacity: 0 } };
+    case "left":
+      return { initial: { x: 30, opacity: 0 } };
+    case "right":
+      return { initial: { x: -30, opacity: 0 } };
+    default:
+      return { initial: { y: 30, opacity: 0 } };
+  }
+};
 
 export default function SectionTransition({
   children,
-  className = "",
   direction = "up",
+  delay = 0,
+  duration = 0.7,
+  className = "",
+  id,
 }: SectionTransitionProps) {
-  const ref = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({
-    target: ref,
-    offset: ["start end", "end start"],
-  });
+  const { initial } = getTransitionValues(direction);
+  const [isMobile, setIsMobile] = useState(false);
 
-  const y = useTransform(
-    scrollYProgress,
-    [0, 1],
-    direction === "up" ? [100, -100] : [-100, 100]
-  );
+  useEffect(() => {
+    // Détecte si l'appareil est mobile/tablette
+    const checkIfMobile = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
 
-  const opacity = useTransform(scrollYProgress, [0, 0.5, 1], [0, 1, 0]);
+    // Vérifie immédiatement
+    checkIfMobile();
+
+    // Ajoute un écouteur pour le redimensionnement
+    window.addEventListener("resize", checkIfMobile);
+
+    return () => {
+      window.removeEventListener("resize", checkIfMobile);
+    };
+  }, []);
+
+  // Pas d'animation sur mobile
+  if (isMobile) {
+    return (
+      <div className={className} id={id}>
+        {children}
+      </div>
+    );
+  }
 
   return (
     <motion.div
-      ref={ref}
-      className={`relative w-full ${className}`}
-      style={{
-        y,
-        opacity,
-      }}
+      className={className}
+      id={id}
+      initial={initial}
+      whileInView={{ y: 0, x: 0, opacity: 1 }}
+      viewport={{ once: true, margin: "-100px" }}
       transition={{
-        duration: 0.5,
-        ease: "easeInOut",
+        duration,
+        delay,
+        ease: [0.06, 0.9, 0.15, 1],
       }}
     >
       {children}
