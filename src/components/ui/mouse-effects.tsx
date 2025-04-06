@@ -1,7 +1,6 @@
 "use client";
 
 import { cn } from "@/lib/utils";
-import Image from "next/image";
 import { useEffect, useState } from "react";
 
 interface MouseEffectsProps {
@@ -78,18 +77,32 @@ export function MouseEffects({ className }: MouseEffectsProps) {
 
       {/* Curseur */}
       <div
-        className="fixed w-12 h-12 pointer-events-none z-[9999]"
+        className="fixed pointer-events-none z-[9999]"
         style={{
-          transform: `translate(${position.x - 24}px, ${position.y - 24}px)`,
+          transform: `translate(${position.x}px, ${position.y}px)`,
+          left: 0,
+          top: 0,
         }}
       >
-        <Image
-          src="/images/curseur/curseur.webp"
-          alt="Curseur personnalisé"
-          width={48}
-          height={48}
-          className="w-full h-full invert pointer-events-none"
-        />
+        {/* Curseur en forme de flèche */}
+        <svg
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+          style={{
+            filter: "drop-shadow(0px 0px 2px rgba(0, 0, 0, 0.3))",
+          }}
+        >
+          <path
+            d="M4 3L20 12L13 13.5L11.5 20.5L4 3Z"
+            fill="#00aed1"
+            stroke="#c9fbff"
+            strokeWidth="1.5"
+            strokeLinejoin="round"
+          />
+        </svg>
       </div>
     </>
   );

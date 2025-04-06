@@ -11,15 +11,20 @@ export function InfoPopup() {
   const [isHovered, setIsHovered] = useState(false);
   const [hoveredSocial, setHoveredSocial] = useState<string | null>(null);
   const [mounted, setMounted] = useState(false);
-  const [isDev] = useState(process.env.NODE_ENV === "development");
   const pathname = usePathname();
+  const [isDev] = useState(process.env.NODE_ENV === "development");
 
   useEffect(() => {
     // Marquer le composant comme monté après le premier rendu côté client
     setMounted(true);
 
-    // Vérifier si le popup a déjà été affiché sur cette page spécifique
-    const hasShownPopup = localStorage.getItem(`popupShown_${pathname}`);
+    // Ne rien faire si nous ne sommes pas sur la page d'accueil
+    if (pathname !== "/") {
+      return;
+    }
+
+    // Vérifier si le popup a déjà été affiché
+    const hasShownPopup = localStorage.getItem("popupShown");
 
     if (!hasShownPopup) {
       // Fonction pour vérifier la position de défilement
@@ -33,8 +38,8 @@ export function InfoPopup() {
         // Si la position de défilement dépasse 50% de la hauteur totale scrollable
         if (scrollHeight > 0 && scrollTop / scrollHeight >= 0.5) {
           setIsVisible(true);
-          // Marquer le popup comme affiché pour cette page spécifique
-          localStorage.setItem(`popupShown_${pathname}`, "true");
+          // Marquer le popup comme affiché
+          localStorage.setItem("popupShown", "true");
           // Supprimer l'écouteur d'événement
           window.removeEventListener("scroll", checkScrollPosition);
         }
@@ -51,68 +56,19 @@ export function InfoPopup() {
     }
   }, [pathname]);
 
-  // Fonction pour réinitialiser l'état du popup (mode développement uniquement)
+  // Fonction pour réinitialiser le popup (utile pour les tests en développement)
   const resetPopupState = () => {
-    // Supprimer l'état du popup pour la page actuelle
-    localStorage.removeItem(`popupShown_${pathname}`);
-    setIsVisible(false); // On cache d'abord le popup s'il était visible
-
-    // On simule un rafraîchissement de l'état en attendant un instant
-    setTimeout(() => {
-      window.scrollTo(0, 0); // Remonter la page en haut
-      alert(
-        `État du popup réinitialisé pour la page ${pathname}. Scrollez jusqu'à 50% de la page pour le voir réapparaître.`
-      );
-    }, 100);
+    localStorage.removeItem("popupShown");
+    setIsVisible(true);
   };
 
-  // Fonction pour réinitialiser l'état du popup pour toutes les pages
-  const resetAllPagesPopupState = () => {
-    // Rechercher toutes les clés qui commencent par "popupShown_" et les supprimer
-    Object.keys(localStorage).forEach((key) => {
-      if (key.startsWith("popupShown_")) {
-        localStorage.removeItem(key);
-      }
-    });
-
-    setIsVisible(false); // On cache d'abord le popup s'il était visible
-
-    // On simule un rafraîchissement de l'état en attendant un instant
-    setTimeout(() => {
-      window.scrollTo(0, 0); // Remonter la page en haut
-      alert(
-        "État du popup réinitialisé pour toutes les pages. Scrollez jusqu'à 50% de la page pour le voir réapparaître."
-      );
-    }, 100);
-  };
-
-  // Ne rien afficher pendant le premier rendu côté client
-  if (!mounted) {
+  // Ne rien afficher pendant le premier rendu côté client ou si nous ne sommes pas sur la page d'accueil
+  if (!mounted || pathname !== "/") {
     return null;
   }
 
   return (
     <>
-      {/* Boutons pour réinitialiser l'état de visite (mode développement uniquement) */}
-      {isDev && (
-        <div className="fixed bottom-4 right-4 flex flex-col gap-2 z-50">
-          <button
-            onClick={resetPopupState}
-            className="bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-md shadow-lg flex items-center gap-2 transition-colors"
-          >
-            <Lightbulb className="h-4 w-4" />
-            <span>Réinitialiser cette page</span>
-          </button>
-          <button
-            onClick={resetAllPagesPopupState}
-            className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-md shadow-lg flex items-center gap-2 transition-colors"
-          >
-            <Lightbulb className="h-4 w-4" />
-            <span>Réinitialiser toutes les pages</span>
-          </button>
-        </div>
-      )}
-
       <AnimatePresence>
         {isVisible && (
           <>
@@ -240,6 +196,17 @@ export function InfoPopup() {
           </>
         )}
       </AnimatePresence>
+
+      {/* Bouton de réinitialisation du popup (visible uniquement en développement) */}
+      {isDev && (
+        <button
+          onClick={resetPopupState}
+          className="fixed bottom-4 right-4 bg-secondary text-white text-xs px-2 py-1 rounded-md opacity-50 hover:opacity-100 z-50"
+          title="Réinitialiser le popup (mode développement uniquement)"
+        >
+          Reset Popup
+        </button>
+      )}
     </>
   );
 }
