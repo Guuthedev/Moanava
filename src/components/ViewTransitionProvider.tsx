@@ -1,78 +1,72 @@
 "use client";
 
 import { useViewTransition } from "@/hooks/useViewTransition";
-import { useRouter } from "next/navigation";
-import { ReactNode, useCallback, useEffect, useRef } from "react";
+import { usePathname } from "next/navigation";
+import { useEffect, useState } from "react";
 
-interface ViewTransitionProviderProps {
-  children: ReactNode;
-}
+// Le type ViewTransition n'est pas encore supporté par TypeScript
+let savedElement: HTMLElement | null = null;
 
-export function ViewTransitionProvider({
+export default function ViewTransitionProvider({
   children,
-}: ViewTransitionProviderProps) {
-  const router = useRouter();
+}: {
+  children: React.ReactNode;
+}) {
+  const pathname = usePathname();
   const { isSupported } = useViewTransition();
-  const prevPathname = useRef<string>("");
+  const [isPending, setIsPending] = useState(false);
 
-  // Gestionnaire de navigation avec transition
-  const handleNavigate = useCallback(
-    (url: string, options: { scroll: boolean } = { scroll: true }) => {
-      if (!isSupported) {
-        // Si l'API n'est pas supportée, navigation normale
-        router.push(url, options);
-        return;
-      }
-
-      // Si les URLs sont identiques, éviter la transition
-      if (prevPathname.current === url) {
-        router.push(url, options);
-        return;
-      }
-
-      prevPathname.current = url;
-
-      // @ts-expect-error - L'API View Transition n'est pas encore dans les types TypeScript
-      document.startViewTransition(() => {
-        router.push(url, options);
-      });
-    },
-    [isSupported, router]
-  );
-
-  // Intercepter tous les clics sur les liens pour appliquer la transition
+  // Un effet pour gérer la suppression de la classe view-transition-old-page
   useEffect(() => {
+    const observer = new MutationObserver((mutations) => {
+      mutations.forEach((mutation) => {
+        if (
+          mutation.type === "attributes" &&
+          mutation.attributeName === "class"
+        ) {
+          const target = mutation.target as HTMLElement;
+          if (target.classList.contains("view-transition-old-page")) {
+            savedElement = target;
+          }
+        }
+      });
+    });
+
+    observer.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ["class"],
+      subtree: true,
+    });
+
+    return () => {
+      observer.disconnect();
+    };
+  }, []);
+
+  // Un effet pour nettoyer la classe sur le nouvel élément
+  useEffect(() => {
+    if (!isPending && savedElement) {
+      savedElement.classList.remove("view-transition-old-page");
+      savedElement = null;
+    }
+  }, [isPending]);
+
+  // Effet pour suivre les changements de chemin
+  useEffect(() => {
+    // Si les transitions de vue ne sont pas supportées, on ne fait rien
     if (!isSupported) return;
 
-    const handleClick = (e: MouseEvent) => {
-      // Ignorer les clics qui ne sont pas sur des liens
-      const target = e.target as HTMLElement;
-      const link = target.closest("a");
-      if (!link) return;
+    // Lorsque le chemin change, on indique que la transition est terminée
+    setIsPending(false);
+  }, [pathname, isSupported]);
 
-      // Ignorer les liens externes ou spéciaux
-      const href = link.getAttribute("href");
-      if (
-        !href ||
-        href.startsWith("http") ||
-        href.startsWith("#") ||
-        href.startsWith("mailto:")
-      ) {
-        return;
-      }
-
-      // Vérifier les attributs data pour désactiver la transition
-      const skipTransition = link.getAttribute("data-no-transition") === "true";
-      if (skipTransition) return;
-
-      // Empêcher le comportement par défaut et effectuer la navigation
-      e.preventDefault();
-      handleNavigate(href);
-    };
-
-    document.addEventListener("click", handleClick);
-    return () => document.removeEventListener("click", handleClick);
-  }, [isSupported, handleNavigate]);
-
-  return <div className="view-transition-container">{children}</div>;
+  return (
+    <div
+      className="view-transition-container"
+      data-pathname={pathname}
+      suppressHydrationWarning={true}
+    >
+      {children}
+    </div>
+  );
 }

@@ -149,12 +149,14 @@ const Hero: React.FC<HeroProps> = ({
             priority
           />
         </div>
+        {/* Fond dégradé blanc léger */}
+        <div className="absolute inset-0 bg-white/60" />
         {/* Overlay avec dégradé radial et dégradés directionnels */}
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_0%,var(--primary)_50%/30%,transparent_100%)]" />
-        <div className="absolute inset-0 bg-gradient-to-t from-transparent via-primary/20 to-transparent" />
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-primary/20 to-transparent" />
-        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-primary/20 to-transparent" />
-        <div className="absolute inset-0 bg-gradient-to-l from-transparent via-primary/20 to-transparent" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_0%,var(--primary)_50%/20%,transparent_100%)]" />
+        <div className="absolute inset-0 bg-gradient-to-t from-transparent via-primary/10 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-primary/10 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-primary/10 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-l from-transparent via-primary/10 to-transparent" />
       </div>
 
       {/* Contenu */}

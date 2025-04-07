@@ -30,13 +30,13 @@ export default function JohannaSection() {
           </h2>
         </motion.div>
 
-        {/* Conteneur principal avec interaction au survol */}
+        {/* Conteneur principal avec interaction au survol - agrandi */}
         <div
-          className="relative w-full max-w-xl mx-auto group"
+          className="relative w-full max-w-2xl mx-auto group"
           onMouseEnter={() => setIsHovered(true)}
           onMouseLeave={() => setIsHovered(false)}
           onTouchStart={() => setIsHovered(!isHovered)}
-          style={{ aspectRatio: "1/1" }}
+          style={{ aspectRatio: "1/1.2" }}
         >
           {/* Image qui disparaît vers la gauche au survol */}
           <motion.div
@@ -128,18 +128,36 @@ export default function JohannaSection() {
             </CardContainer>
           </motion.div>
 
-          {/* Indicateur de survol pour améliorer l'UX */}
+          {/* Bulle de bande dessinée pour inciter au survol */}
           <motion.div
-            className="absolute bottom-4 right-4 bg-secondary/30 backdrop-blur-sm px-3 py-2 rounded-lg pointer-events-none z-30"
+            className="absolute top-10 right-0 transform translate-x-1/2 z-30 pointer-events-none"
+            initial={{ scale: 0.8, opacity: 0 }}
             animate={{
-              opacity: isHovered ? 0 : 0.9,
-              y: isHovered ? 10 : 0,
-              transition: { duration: 0.3 },
+              scale: isHovered ? 0 : [0.95, 1.05, 0.95],
+              opacity: isHovered ? 0 : 1,
+              y: isHovered ? -10 : 0,
+            }}
+            transition={{
+              scale: {
+                repeat: Infinity,
+                duration: 3,
+              },
+              opacity: { duration: 0.3 },
             }}
           >
-            <span className="text-secondary text-sm whitespace-nowrap">
-              Survolez pour en savoir plus
-            </span>
+            <div className="relative">
+              <svg
+                width="130"
+                height="80"
+                viewBox="0 0 130 80"
+                className="fill-primary/80"
+              >
+                <path d="M10,40 C10,17.909 27.909,0 50,0 L70,0 C92.092,0 110,17.909 110,40 C110,62.091 92.092,80 70,80 L30,80 L10,90 L15,80 C12.791,77.792 10,62.091 10,40 Z" />
+              </svg>
+              <div className="absolute inset-0 flex items-center justify-center text-secondary text-sm font-medium p-5 pb-8">
+                <span>Découvrez mon histoire</span>
+              </div>
+            </div>
           </motion.div>
         </div>
       </div>

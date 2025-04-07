@@ -69,7 +69,7 @@ export default function TravelPlannerSection() {
               <div className="space-y-4 max-w-2xl mx-auto">
                 <p className="text-lg text-secondary/80 leading-relaxed">
                   Organiser un voyage parfait demande du temps et de
-                  l&apos;expertise.
+                  l'expertise.
                 </p>
                 <p className="text-lg text-secondary/80 leading-relaxed">
                   En choisissant mes services, vous économisez non seulement

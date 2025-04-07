@@ -44,7 +44,7 @@ export default function TravelPlannerAdvantages() {
               </span>
             </h2>
             <p className="text-xl text-secondary/80 max-w-2xl mx-auto">
-              Je vous accompagne dans la création d&apos;un voyage unique et
+              Je vous accompagne dans la création d'un voyage unique et
               mémorable en Polynésie
             </p>
           </div>

@@ -1,7 +1,7 @@
 import Footer from "@/components/footer";
 import Navbar from "@/components/Navbar";
 import { MouseEffects } from "@/components/ui/mouse-effects";
-import { ViewTransitionProvider } from "@/components/ViewTransitionProvider";
+import ViewTransitionProvider from "@/components/ViewTransitionProvider";
 import type { Metadata } from "next";
 import { Montserrat, Open_Sans } from "next/font/google";
 import { Toaster } from "sonner";
@@ -30,8 +30,15 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="fr" className={`${montserrat.variable} ${openSans.variable}`}>
-      <body className="font-opensans bg-background text-foreground cursor-none lg:cursor-none sm:cursor-auto md:cursor-auto">
+    <html
+      lang="fr"
+      className={`${montserrat.variable} ${openSans.variable}`}
+      suppressHydrationWarning
+    >
+      <body
+        className="font-opensans bg-background text-foreground cursor-none lg:cursor-none sm:cursor-auto md:cursor-auto"
+        suppressHydrationWarning
+      >
         <ViewTransitionProvider>
           <MouseEffects />
           <div className="relative flex flex-col min-h-screen">

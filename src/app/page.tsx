@@ -8,15 +8,17 @@ import InstagramFeed from "@/components/InstagramFeed";
 import JohannaSection from "@/components/JohannaSection";
 import Navbar from "@/components/Navbar";
 import TravelPlannerSection from "@/components/TravelPlannerSection";
-import { InfoPopup } from "@/components/ui/info-popup";
 import { useState } from "react";
 
 export default function Home() {
   // État pour gérer l'ouverture/fermeture du formulaire de contact
   const [isContactOpen, setIsContactOpen] = useState(false);
+  // État pour suivre l'origine du formulaire de contact
+  const [contactOrigin, setContactOrigin] = useState("Page d'accueil");
 
-  // Fonction pour ouvrir le formulaire de contact
-  const handleOpenContact = () => {
+  // Fonction pour ouvrir le formulaire de contact avec l'origine spécifiée
+  const handleOpenContact = (source: string = "Bouton non spécifié") => {
+    setContactOrigin(`Bouton "${source}" (Page d'accueil)`);
     setIsContactOpen(true);
   };
 
@@ -29,6 +31,7 @@ export default function Home() {
       <Navbar
         isContactOpen={isContactOpen}
         setIsContactOpen={setIsContactOpen}
+        onContactClick={() => handleOpenContact("Menu Contact")}
       />
 
       {/* Conteneur principal */}
@@ -38,7 +41,7 @@ export default function Home() {
           <section className="min-h-screen flex items-center justify-center">
             <Hero
               subtitle="Johanna, Travel Planner et créatrice de souvenirs, vous accompagne pour un voyage qui vous ressemble, en Polynésie et dans le monde entier."
-              onContactClick={handleOpenContact}
+              onContactClick={() => handleOpenContact("Commencez votre voyage")}
             />
           </section>
 
@@ -67,7 +70,7 @@ export default function Home() {
 
           {/* Call to Action avec ouverture du formulaire de contact */}
           <section className="min-h-screen flex items-center justify-center">
-            <HomeCTA onContactClick={handleOpenContact} />
+            <HomeCTA onContactClick={() => handleOpenContact("Me contacter")} />
           </section>
         </main>
       </div>
@@ -76,9 +79,8 @@ export default function Home() {
       <ContactFormPopup
         isOpen={isContactOpen}
         onClose={() => setIsContactOpen(false)}
+        origin={contactOrigin}
       />
-
-      <InfoPopup />
     </>
   );
 }

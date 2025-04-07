@@ -6,6 +6,8 @@ import ButtonCTA from "./ButtonCTA";
 interface ContactFormPopupProps {
   isOpen: boolean;
   onClose: () => void;
+  initialMessage?: string;
+  origin?: string; // Origine du formulaire (bouton et emplacement)
 }
 
 interface FormData {
@@ -13,11 +15,14 @@ interface FormData {
   email: string;
   whatsapp: string;
   message: string;
+  origin?: string; // Ajout du champ origin
 }
 
 const ContactFormPopup: React.FC<ContactFormPopupProps> = ({
   isOpen,
   onClose,
+  initialMessage = "",
+  origin = "Formulaire de contact standard",
 }) => {
   // États pour le formulaire séquentiel
   const [step, setStep] = useState(0);
@@ -25,7 +30,8 @@ const ContactFormPopup: React.FC<ContactFormPopupProps> = ({
     name: "",
     email: "",
     whatsapp: "",
-    message: "",
+    message: initialMessage,
+    origin: origin, // Initialiser avec l'origine fournie
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [formStatus, setFormStatus] = useState<{
@@ -202,7 +208,13 @@ const ContactFormPopup: React.FC<ContactFormPopupProps> = ({
 
   // Réinitialiser le formulaire
   const handleReset = () => {
-    setFormData({ name: "", email: "", whatsapp: "", message: "" });
+    setFormData({
+      name: "",
+      email: "",
+      whatsapp: "",
+      message: "",
+      origin: origin,
+    });
     setStep(0);
     setFormStatus({});
     setFormSubmitted(false);
@@ -232,6 +244,17 @@ const ContactFormPopup: React.FC<ContactFormPopupProps> = ({
     if (step === 3) return "Envoyer";
     return "Continuer";
   };
+
+  // Mettre à jour le message et l'origine lorsque les props changent
+  useEffect(() => {
+    if (initialMessage || origin) {
+      setFormData((prev) => ({
+        ...prev,
+        message: initialMessage || prev.message,
+        origin: origin || prev.origin,
+      }));
+    }
+  }, [initialMessage, origin]);
 
   return (
     <AnimatePresence>
@@ -329,7 +352,7 @@ const ContactFormPopup: React.FC<ContactFormPopupProps> = ({
                             value={formData.name}
                             onChange={handleInputChange}
                             onKeyDown={handleKeyDown}
-                            className="w-full px-4 py-3 rounded-md border border-secondary/20 focus:outline-none focus:ring-2 focus:ring-secondary bg-primary/20 text-secondary placeholder-secondary/50"
+                            className="w-full px-4 py-3 rounded-md border border-secondary/20 focus:outline-none focus:ring-2 focus:ring-secondary bg-primary/40 text-secondary placeholder-secondary/50"
                             placeholder="Votre nom"
                             disabled={step !== 0}
                           />
@@ -371,7 +394,7 @@ const ContactFormPopup: React.FC<ContactFormPopupProps> = ({
                             value={formData.email}
                             onChange={handleInputChange}
                             onKeyDown={handleKeyDown}
-                            className="w-full px-4 py-3 rounded-md border border-secondary/20 focus:outline-none focus:ring-2 focus:ring-secondary bg-primary/20 text-secondary placeholder-secondary/50"
+                            className="w-full px-4 py-3 rounded-md border border-secondary/20 focus:outline-none focus:ring-2 focus:ring-secondary bg-primary/40 text-secondary placeholder-secondary/50"
                             placeholder="votre.email@example.com"
                             disabled={step !== 1}
                           />
@@ -415,7 +438,7 @@ const ContactFormPopup: React.FC<ContactFormPopupProps> = ({
                             value={formData.whatsapp}
                             onChange={handleInputChange}
                             onKeyDown={handleKeyDown}
-                            className="w-full px-4 py-3 rounded-md border border-secondary/20 focus:outline-none focus:ring-2 focus:ring-secondary bg-primary/20 text-secondary placeholder-secondary/50"
+                            className="w-full px-4 py-3 rounded-md border border-secondary/20 focus:outline-none focus:ring-2 focus:ring-secondary bg-primary/40 text-secondary placeholder-secondary/50"
                             placeholder="Ex: +33 6 12 34 56 78"
                             disabled={step !== 2}
                           />
@@ -462,7 +485,7 @@ const ContactFormPopup: React.FC<ContactFormPopupProps> = ({
                               }
                             }}
                             rows={4}
-                            className="w-full px-4 py-3 rounded-md border border-secondary/20 focus:outline-none focus:ring-2 focus:ring-secondary bg-primary/20 text-secondary placeholder-secondary/50"
+                            className="w-full px-4 py-3 rounded-md border border-secondary/20 focus:outline-none focus:ring-2 focus:ring-secondary bg-primary/40 text-secondary placeholder-secondary/50"
                             placeholder="Votre message"
                           ></textarea>
                           {step === 3 &&

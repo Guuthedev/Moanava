@@ -12,16 +12,19 @@ import ContactFormPopup from "./ContactFormPopup";
 const menuLinks = [
   { name: "À propos", href: "/a-propos" },
   { name: "Travel Planner", href: "/travel-planner" },
+  { name: "Tarifs", href: "/tarifs" },
 ];
 
 interface NavbarProps {
   isContactOpen?: boolean;
   setIsContactOpen?: (isOpen: boolean) => void;
+  onContactClick?: () => void;
 }
 
 export default function Navbar({
   isContactOpen: externalIsContactOpen,
   setIsContactOpen: externalSetIsContactOpen,
+  onContactClick,
 }: NavbarProps) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
@@ -51,7 +54,12 @@ export default function Navbar({
 
   // Ouvrir le formulaire de contact
   const handleOpenContact = () => {
-    setIsContactOpen(true);
+    if (onContactClick) {
+      onContactClick();
+    } else {
+      setIsContactOpen(true);
+    }
+
     if (isMenuOpen) {
       setIsMenuOpen(false);
     }

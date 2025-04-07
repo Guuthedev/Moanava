@@ -29,18 +29,17 @@ export default function AboutPage() {
         <div className="prose prose-lg max-w-none">
           <p className="text-lg text-secondary/80 leading-relaxed mb-6">
             Passionnée de voyages et amoureuse de la Polynésie française, je
-            vous accompagne dans la création d&apos;expériences authentiques et
+            vous accompagne dans la création d'expériences authentiques et
             personnalisées. Mon expertise locale et ma connaissance des
             destinations internationales me permettent de créer pour vous des
             itinéraires uniques qui vous ressemblent.
           </p>
 
           <p className="text-lg text-secondary/80 leading-relaxed mb-6">
-            Mon approche privilégie l&apos;échange, l&apos;écoute et
-            l&apos;adaptation à vos envies pour des souvenirs qui resteront
-            gravés dans votre mémoire. Je m&apos;engage à vous offrir une
-            expérience de voyage sur mesure, en accord avec vos attentes et vos
-            rêves.
+            Mon approche privilégie l'échange, l'écoute et l'adaptation à vos
+            envies pour des souvenirs qui resteront gravés dans votre mémoire.
+            Je m'engage à vous offrir une expérience de voyage sur mesure, en
+            accord avec vos attentes et vos rêves.
           </p>
 
           <p className="text-lg text-secondary/80 leading-relaxed">
