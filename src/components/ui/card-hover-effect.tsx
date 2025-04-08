@@ -3,6 +3,7 @@
 import { cn } from "@/lib/utils";
 import { AnimatePresence, motion } from "framer-motion";
 import { LucideIcon } from "lucide-react";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 interface CardHoverEffectProps {
@@ -16,6 +17,12 @@ interface CardHoverEffectProps {
 
 export const CardHoverEffect = ({ items, className }: CardHoverEffectProps) => {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
+  const router = useRouter();
+
+  // Fonction de redirection vers la page travel-planner
+  const handleCardClick = () => {
+    router.push("/travel-planner");
+  };
 
   return (
     <div
@@ -27,14 +34,23 @@ export const CardHoverEffect = ({ items, className }: CardHoverEffectProps) => {
       {items.map((item, idx) => (
         <motion.div
           key={idx}
-          className="relative group block p-2 h-full w-full"
+          className="relative group block p-2 h-full w-full cursor-pointer"
           onMouseEnter={() => setHoveredIndex(idx)}
           onMouseLeave={() => setHoveredIndex(null)}
+          onClick={handleCardClick}
+          role="button"
+          aria-label={`Découvrir ${item.title} sur la page Travel Planner`}
+          tabIndex={0}
+          onKeyDown={(e) => {
+            if (e.key === "Enter" || e.key === " ") {
+              handleCardClick();
+            }
+          }}
         >
           <AnimatePresence>
             {hoveredIndex === idx && (
               <motion.span
-                className="absolute inset-0 h-full w-full bg-primary/80 backdrop-blur-xl block rounded-3xl z-10"
+                className="absolute inset-0 h-full w-full bg-secondary/80 backdrop-blur-xl block rounded-3xl z-10"
                 layoutId="hoverBackground"
                 initial={{ opacity: 0 }}
                 animate={{
@@ -58,7 +74,7 @@ export const CardHoverEffect = ({ items, className }: CardHoverEffectProps) => {
                 }}
                 transition={{ duration: 0.3 }}
               >
-                <div className="bg-secondary/10 p-3 rounded-xl group-hover:bg-secondary/20 transition-all duration-300">
+                <div className="bg-primary/10 p-3 rounded-xl group-hover:bg-primary/20 transition-all duration-300">
                   <item.icon className="h-6 w-6 text-secondary" />
                 </div>
                 <CardTitle>{item.title}</CardTitle>
@@ -93,7 +109,7 @@ const Card = ({
   return (
     <div
       className={cn(
-        "rounded-2xl h-full w-full p-4 overflow-hidden bg-primary/10 backdrop-blur-sm border border-secondary/10 group-hover:border-secondary/20 relative z-20 transition-all duration-300",
+        "rounded-2xl h-full w-full p-4 overflow-hidden bg-primary/20 backdrop-blur-sm border border-primary/10 group-hover:border-primary/20 relative z-20 transition-all duration-300",
         className
       )}
     >
@@ -133,7 +149,7 @@ const CardDescription = ({
   return (
     <p
       className={cn(
-        "text-secondary tracking-wide leading-relaxed text-base",
+        "text-primary tracking-wide leading-relaxed text-base",
         className
       )}
     >

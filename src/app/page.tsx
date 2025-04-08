@@ -4,7 +4,6 @@ import ContactFormPopup from "@/components/ContactFormPopup";
 import Hero from "@/components/Hero";
 import HomeCTA from "@/components/HomeCTA";
 import HomeSEO from "@/components/HomeSEO";
-import InstagramFeed from "@/components/InstagramFeed";
 import JohannaSection from "@/components/JohannaSection";
 import Navbar from "@/components/Navbar";
 import TravelPlannerSection from "@/components/TravelPlannerSection";
@@ -53,19 +52,6 @@ export default function Home() {
           {/* Section Travel Planner */}
           <section className="min-h-screen flex items-center justify-center">
             <TravelPlannerSection />
-          </section>
-
-          {/* Section Instagram Feed */}
-          <section className="min-h-screen flex items-center justify-center py-20">
-            <div className="w-full">
-              <h2 className="text-4xl lg:text-5xl font-bold font-display text-center mb-12">
-                <span className="text-secondary">Suivez-moi sur</span>{" "}
-                <span className="text-primary [text-shadow:_0_1px_0_var(--secondary)]">
-                  Instagram
-                </span>
-              </h2>
-              <InstagramFeed />
-            </div>
           </section>
 
           {/* Call to Action avec ouverture du formulaire de contact */}

@@ -15,7 +15,6 @@ import {
 import React, { useState } from "react";
 import ButtonCTA from "./ButtonCTA";
 import ContactFormPopup from "./ContactFormPopup";
-import SectionTransition from "./SectionTransition";
 import { CardHoverEffect } from "./ui/card-hover-effect";
 
 // Types pour les formules de prix
@@ -78,7 +77,7 @@ const commonFeatures: PricingFeature[] = [
     name: "Réservations assistées",
     included: true,
     tooltip:
-      "Au moment de la remise du carnet de voyage, toutes les prestations sont réalisables aux dates indiquées, la disponibilité a été vérifiée",
+      "Je m'assure de la disponibilité et des tarifs avant la communication du carnet de voyage",
     showInCard: false,
   },
   {
@@ -125,7 +124,7 @@ const pricingPlans: PricingPlan[] = [
         name: "Réservations assistées",
         included: true,
         tooltip:
-          "Au moment de la remise du carnet de voyage, toutes les prestations sont réalisables aux dates indiquées, la disponibilité a été vérifiée",
+          "Je m'assure de la disponibilité et des tarifs avant la communication du carnet de voyage",
         showInCard: false,
       },
       {
@@ -162,7 +161,7 @@ const pricingPlans: PricingPlan[] = [
         name: "Réservations assistées",
         included: true,
         tooltip:
-          "Au moment de la remise du carnet de voyage, toutes les prestations sont réalisables aux dates indiquées, la disponibilité a été vérifiée",
+          "Je m'assure de la disponibilité et des tarifs avant la communication du carnet de voyage",
         showInCard: false,
       },
       {
@@ -204,7 +203,7 @@ const pricingPlans: PricingPlan[] = [
         name: "Réservations assistées",
         included: true,
         tooltip:
-          "Au moment de la remise du carnet de voyage, toutes les prestations sont réalisables aux dates indiquées, la disponibilité a été vérifiée",
+          "Je m'assure de la disponibilité et des tarifs avant la communication du carnet de voyage",
         showInCard: false,
       },
       {
@@ -230,7 +229,7 @@ const PricingComponent: React.FC<PricingComponentProps> = ({
     "monthly" | "annually" | "annually2"
   >("monthly");
   const [selectedPlan, setSelectedPlan] = useState<string | null>(null);
-  const [showTooltip, setShowTooltip] = useState<string | null>(null);
+  const [showTooltip, setShowTooltip] = useState<boolean>(false);
   const [isComparisonOpen, setIsComparisonOpen] = useState<boolean>(false);
   const [currency, setCurrency] = useState<"EUR" | "XPF">("EUR");
 
@@ -285,52 +284,25 @@ const PricingComponent: React.FC<PricingComponentProps> = ({
   };
 
   // Créer un objet pour le tooltip (pour les cartes)
-  const renderTooltip = (featureId: string, tooltip?: string) => {
-    if (!tooltip) return null;
-
+  const renderTooltip = (feature: PricingFeature) => {
+    const showQuestionMark =
+      feature.name === "Carnet de voyage" ||
+      feature.name === "Réservation assistée";
     return (
-      <span className="relative ml-2 inline-block">
-        <button
-          className="text-muted-foreground hover:text-primary"
-          onMouseEnter={() => setShowTooltip(featureId)}
-          onMouseLeave={() => setShowTooltip(null)}
-        >
-          <span className="flex items-center justify-center w-5 h-5 rounded-full bg-muted text-muted-foreground">
-            ?
-          </span>
-        </button>
-        {showTooltip === featureId && (
-          <div className="absolute z-50 w-64 px-4 py-2 text-sm text-white bg-gray-900 rounded-lg shadow-lg -left-28 bottom-full mb-2">
-            {tooltip}
-            <span className="absolute bottom-0 left-1/2 transform -translate-x-1/2 translate-y-1/2 rotate-45 w-2 h-2 bg-gray-900"></span>
-          </div>
+      <div className="flex items-center gap-2">
+        <span>{feature.name}</span>
+        {showQuestionMark && (
+          <button
+            className="relative group"
+            onClick={(e) => e.preventDefault()}
+          >
+            <span className="text-primary">?</span>
+            <div className="absolute left-0 top-0 w-64 p-2 bg-white text-sm text-gray-600 rounded-lg shadow-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+              {feature.tooltip}
+            </div>
+          </button>
         )}
-      </span>
-    );
-  };
-
-  // Créer un objet pour le tooltip (pour le tableau descriptif)
-  const renderTableTooltip = (featureId: string, tooltip?: string) => {
-    if (!tooltip) return null;
-
-    return (
-      <span className="relative ml-2 inline-block">
-        <button
-          className="text-muted-foreground hover:text-primary"
-          onMouseEnter={() => setShowTooltip(featureId)}
-          onMouseLeave={() => setShowTooltip(null)}
-        >
-          <span className="flex items-center justify-center w-5 h-5 rounded-full bg-muted text-muted-foreground">
-            ?
-          </span>
-        </button>
-        {showTooltip === featureId && (
-          <div className="absolute z-50 w-64 px-4 py-2 text-sm text-white bg-gray-900 rounded-lg shadow-lg left-0 lg:left-auto lg:right-0 bottom-full mb-2">
-            {tooltip}
-            <span className="absolute bottom-0 left-1/2 transform -translate-x-1/2 translate-y-1/2 rotate-45 w-2 h-2 bg-gray-900"></span>
-          </div>
-        )}
-      </span>
+      </div>
     );
   };
 
@@ -389,8 +361,6 @@ const PricingComponent: React.FC<PricingComponentProps> = ({
                       : "text-foreground hover:text-primary"
                   }`}
                   aria-label="Réduction de 10%"
-                  onMouseEnter={() => setShowTooltip("annually-tooltip")}
-                  onMouseLeave={() => setShowTooltip(null)}
                 >
                   {billingPeriod === "annually" && (
                     <motion.div
@@ -405,13 +375,6 @@ const PricingComponent: React.FC<PricingComponentProps> = ({
                     />
                   )}
                   <span className="relative z-10">-10%</span>
-                  {showTooltip === "annually-tooltip" && (
-                    <div className="absolute z-50 w-64 px-4 py-2 text-sm text-white bg-gray-900 rounded-lg shadow-lg -left-24 bottom-full mb-2">
-                      -10% si vous réservez un an à l&apos;avance ou à partir de
-                      la deuxième commande
-                      <span className="absolute bottom-0 left-1/2 transform -translate-x-1/2 translate-y-1/2 rotate-45 w-2 h-2 bg-gray-900"></span>
-                    </div>
-                  )}
                 </button>
               </div>
               <div className="relative">
@@ -423,8 +386,6 @@ const PricingComponent: React.FC<PricingComponentProps> = ({
                       : "text-foreground hover:text-primary"
                   }`}
                   aria-label="Réduction de 15%"
-                  onMouseEnter={() => setShowTooltip("annually2-tooltip")}
-                  onMouseLeave={() => setShowTooltip(null)}
                 >
                   {billingPeriod === "annually2" && (
                     <motion.div
@@ -439,47 +400,99 @@ const PricingComponent: React.FC<PricingComponentProps> = ({
                     />
                   )}
                   <span className="relative z-10">-15%</span>
-                  {showTooltip === "annually2-tooltip" && (
-                    <div className="absolute z-50 w-64 px-4 py-2 text-sm text-white bg-gray-900 rounded-lg shadow-lg -left-24 bottom-full mb-2">
-                      -15% si réservation un an à l&apos;avance et à partir de
-                      la deuxième commande
-                      <span className="absolute bottom-0 left-1/2 transform -translate-x-1/2 translate-y-1/2 rotate-45 w-2 h-2 bg-gray-900"></span>
-                    </div>
-                  )}
                 </button>
               </div>
             </div>
-
-            {/* Icône d'aide avec infobulle */}
-            <div className="relative ml-2">
-              <button
-                className="flex items-center justify-center w-6 h-6 rounded-full bg-muted text-secondary hover:bg-secondary/20 transition-colors"
-                onMouseEnter={() => setShowTooltip("pricing-info")}
-                onMouseLeave={() => setShowTooltip(null)}
-                aria-label="Informations sur les réductions"
-              >
-                ?
-              </button>
-              {showTooltip === "pricing-info" && (
-                <div className="absolute z-50 w-80 px-4 py-3 text-sm bg-gray-900 text-white rounded-lg shadow-lg right-0 bottom-full mb-2">
-                  <p className="font-semibold mb-2">
-                    Conditions pour bénéficier des réductions :
-                  </p>
-                  <ul className="space-y-1 list-disc pl-4">
-                    <li>
-                      -10% sur votre voyage si vous réservez un an à
-                      l&apos;avance
-                    </li>
-                    <li>-10% sur votre deuxième voyage avec Moanava</li>
-                    <li>
-                      -15% si vous cumulez les deux conditions précédentes
-                    </li>
-                  </ul>
-                  <span className="absolute bottom-0 right-2 transform translate-y-1/2 rotate-45 w-2 h-2 bg-gray-900"></span>
-                </div>
-              )}
-            </div>
           </div>
+
+          {/* Bouton d'aide avec effet plein écran */}
+          <div className="mt-4 flex justify-center">
+            <button
+              className="border border-secondary/20 hover:border-secondary/40 bg-secondary/10 backdrop-blur-sm px-5 py-2 rounded-md text-secondary/80 hover:text-secondary font-medium flex items-center justify-center mx-auto transition-all duration-300 hover:shadow-md"
+              onClick={() => setShowTooltip(true)}
+              aria-label="Informations sur les réductions"
+            >
+              En savoir plus sur les réductions
+            </button>
+          </div>
+
+          {/* Overlay plein écran pour l'infobulle */}
+          <AnimatePresence>
+            {showTooltip && (
+              <>
+                {/* Overlay de flou */}
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.3 }}
+                  className="fixed inset-0 bg-black/30 backdrop-blur-sm z-40"
+                  onClick={() => setShowTooltip(false)}
+                  suppressHydrationWarning={true}
+                />
+
+                {/* Contenu de l'infobulle */}
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.95 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.95 }}
+                  transition={{ duration: 0.3 }}
+                  className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-50 w-full max-w-xl"
+                  suppressHydrationWarning={true}
+                >
+                  <div className="bg-primary rounded-2xl p-6 mx-4 sm:p-8 shadow-xl">
+                    <div className="text-center mb-4">
+                      <h3 className="text-2xl font-bold text-white mb-4">
+                        Réductions disponibles
+                      </h3>
+                      <div className="w-16 h-16 bg-white/20 rounded-full mx-auto flex items-center justify-center mb-4">
+                        <span className="text-white text-3xl font-bold">%</span>
+                      </div>
+                    </div>
+                    <div className="space-y-4 text-white">
+                      <p className="font-semibold text-xl text-center mb-4">
+                        Conditions pour bénéficier des réductions :
+                      </p>
+                      <div className="bg-white/10 p-4 rounded-xl">
+                        <p className="mb-2 flex items-center">
+                          <span className="bg-white/20 w-12 h-12 rounded-full flex items-center justify-center mr-4 flex-shrink-0 text-lg font-bold">
+                            -10%
+                          </span>
+                          <span>Si vous réservez un an à l&apos;avance</span>
+                        </p>
+                      </div>
+                      <div className="bg-white/10 p-4 rounded-xl">
+                        <p className="mb-2 flex items-center">
+                          <span className="bg-white/20 w-12 h-12 rounded-full flex items-center justify-center mr-4 flex-shrink-0 text-lg font-bold">
+                            -10%
+                          </span>
+                          <span>Sur votre deuxième voyage avec Moanava</span>
+                        </p>
+                      </div>
+                      <div className="bg-white/10 p-4 rounded-xl">
+                        <p className="mb-2 flex items-center">
+                          <span className="bg-white/20 w-12 h-12 rounded-full flex items-center justify-center mr-4 flex-shrink-0 text-lg font-bold">
+                            -15%
+                          </span>
+                          <span>
+                            Si vous cumulez les deux conditions précédentes
+                          </span>
+                        </p>
+                      </div>
+                    </div>
+                    <div className="mt-6 text-center">
+                      <button
+                        onClick={() => setShowTooltip(false)}
+                        className="bg-white/20 hover:bg-white/30 text-white px-6 py-2 rounded-xl transition-colors duration-300"
+                      >
+                        J&apos;ai compris
+                      </button>
+                    </div>
+                  </div>
+                </motion.div>
+              </>
+            )}
+          </AnimatePresence>
 
           {/* Bouton de comparaison */}
           {showComparison && (
@@ -520,20 +533,20 @@ const PricingComponent: React.FC<PricingComponentProps> = ({
               transition={{ duration: 0.3 }}
               className="overflow-hidden mb-12"
             >
-              <div className="bg-card/80 backdrop-blur-sm rounded-xl shadow-md overflow-hidden max-w-3xl mx-auto">
-                <div className="p-6">
+              <div className="bg-card/80 backdrop-blur-sm rounded-xl shadow-md overflow-hidden max-w-2xl mx-auto">
+                <div className="p-4">
                   <h3 className="text-xl font-bold text-primary mb-4 text-center">
                     Prestations incluses dans toutes les formules
                   </h3>
-                  <div className="space-y-4">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                     {commonFeatures.map((feature) => (
                       <div
                         key={feature.id}
-                        className="flex items-start p-3 rounded-lg bg-muted/10 hover:bg-muted/20 transition-colors"
+                        className="flex items-center p-2 rounded-lg bg-muted/10 hover:bg-muted/20 transition-colors"
                       >
-                        <div className="flex-shrink-0 h-6 w-6 mt-0.5">
+                        <div className="flex-shrink-0 w-5 mr-1">
                           <svg
-                            className="h-6 w-6 text-secondary"
+                            className="h-5 w-5 text-secondary"
                             fill="currentColor"
                             viewBox="0 0 20 20"
                           >
@@ -544,16 +557,9 @@ const PricingComponent: React.FC<PricingComponentProps> = ({
                             />
                           </svg>
                         </div>
-                        <div className="ml-3 flex-1">
-                          <p className="text-base font-medium text-foreground flex items-center">
-                            {feature.name}
-                            {feature.tooltip &&
-                              renderTableTooltip(
-                                `description-${feature.id}`,
-                                feature.tooltip
-                              )}
-                          </p>
-                        </div>
+                        <p className="text-sm font-medium text-foreground">
+                          {renderTooltip(feature)}
+                        </p>
                       </div>
                     ))}
                   </div>
@@ -650,12 +656,7 @@ const PricingComponent: React.FC<PricingComponentProps> = ({
                                 : "text-muted-foreground line-through"
                             }`}
                           >
-                            {feature.name}
-                            {feature.tooltip &&
-                              renderTooltip(
-                                `card-${plan.id}-${feature.id}`,
-                                feature.tooltip
-                              )}
+                            {renderTooltip(feature)}
                           </p>
                         </div>
                       </li>
@@ -729,7 +730,22 @@ export default function TarifsPricing() {
   };
 
   return (
-    <SectionTransition direction="up">
+    <section id="travel-planner" className="min-h-screen py-24 bg-white">
+      <PricingComponent
+        title={
+          <>
+            <span className="text-secondary">Tarifs transparents</span>{" "}
+            <span className="text-primary [text-shadow:_0_1px_0_var(--secondary)]">
+              pour votre voyage sur mesure
+            </span>
+          </>
+        }
+        subtitle="Découvrez mes formules claires et sans surprises pour organiser votre voyage de rêve partout dans le monde. Avec mon expertise, gagnez un temps précieux et profitez d'un accompagnement personnalisé du début à la fin."
+        plans={pricingPlans}
+        onSelectPlan={handleSelectPlan}
+        showComparison={true}
+      />
+
       {/* Contact Popup */}
       <ContactFormPopup
         isOpen={isContactPopupOpen}
@@ -738,26 +754,11 @@ export default function TarifsPricing() {
         origin={getFormOrigin()}
       />
 
-      {/* Section Nos formules - page entière */}
-      <section className="min-h-screen py-20 flex flex-col justify-center">
-        <PricingComponent
-          title={
-            <>
-              <span className="text-secondary">Nos</span>{" "}
-              <span className="text-primary [text-shadow:_0_1px_0_var(--secondary)]">
-                formules
-              </span>
-            </>
-          }
-          subtitle="Choisissez la formule qui correspond le mieux à vos envies de voyage"
-          plans={pricingPlans}
-          onSelectPlan={handleSelectPlan}
-          showComparison={true}
-        />
-      </section>
-
       {/* Section Sur Devis - page entière */}
-      <section className="min-h-screen py-20 flex flex-col justify-center">
+      <section
+        id="video-creator"
+        className="min-h-screen py-20 flex flex-col justify-center"
+      >
         <div className="w-full px-4 sm:px-6 lg:px-8">
           <div className="max-w-7xl mx-auto">
             {/* Section sur devis */}
@@ -797,21 +798,21 @@ export default function TarifsPricing() {
                     icon: Heart,
                   },
                   {
-                    title: "Voyage d'affaire",
+                    title: "Voyage d&apos;affaire",
                     description:
-                      "Organisation efficace de vos déplacements professionnels avec un focus sur l'efficacité et le confort.",
+                      "Organisation efficace de vos déplacements professionnels avec un focus sur l&apos;efficacité et le confort.",
                     icon: Briefcase,
                   },
                   {
                     title: "Séminaire",
                     description:
-                      "Des solutions complètes pour vos événements d'entreprise, incluant transport, hébergement et activités.",
+                      "Des solutions complètes pour vos événements d&apos;entreprise, incluant transport, hébergement et activités.",
                     icon: Building,
                   },
                   {
                     title: "Grande randonnée",
                     description:
-                      "Parcours de randonnée sur mesure, du grand classique à l'itinérant. Je vous organise des parcours en montagne avec des options de refuge ou bivouac selon vos préférences.",
+                      "Parcours de randonnée sur mesure, du grand classique à l&apos;itinérant. Je vous organise des parcours en montagne avec des options de refuge ou bivouac selon vos préférences.",
                     icon: Mountain,
                   },
                   {
@@ -821,7 +822,7 @@ export default function TarifsPricing() {
                     icon: Compass,
                   },
                   {
-                    title: "Besoin d'inspiration ?",
+                    title: "Besoin d&apos;inspiration ?",
                     description:
                       "Vous ne savez pas où aller ? Je peux vous aider à trouver la destination idéale selon vos envies.",
                     icon: MapPin,
@@ -832,6 +833,6 @@ export default function TarifsPricing() {
           </div>
         </div>
       </section>
-    </SectionTransition>
+    </section>
   );
 }

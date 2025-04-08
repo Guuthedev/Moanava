@@ -15,7 +15,10 @@ export default function TravelPlannerCTA({
   const router = useRouter();
 
   return (
-    <section className="min-h-screen w-full text-secondary relative flex items-center justify-center">
+    <section
+      className="min-h-screen w-full text-secondary relative flex items-center justify-center"
+      aria-labelledby="travel-cta-heading"
+    >
       <div className="w-full px-4 relative z-10 flex items-center justify-center">
         <SectionTransition direction="up">
           <motion.div
@@ -25,27 +28,35 @@ export default function TravelPlannerCTA({
             viewport={{ once: true }}
             transition={{ duration: 0.8, ease: "easeOut" }}
           >
-            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold font-display mb-6 flex flex-col">
-              <span className="text-secondary mb-2">Prêt à commencer</span>
+            <h2
+              id="travel-cta-heading"
+              className="text-3xl md:text-4xl lg:text-5xl font-bold font-display mb-6 flex flex-col"
+            >
+              <span className="text-secondary mb-2">Voyages sur mesure</span>
               <span className="text-primary [text-shadow:_0_1px_0_var(--secondary)]">
-                Votre voyage ?
+                partout dans le monde
               </span>
             </h2>
 
-            <p className="text-lg md:text-xl text-secondary/90 max-w-3xl mx-auto mb-10">
-              Partagez vos envies et vos rêves de voyage. Ensemble, créons une
-              expérience inoubliable qui vous ressemble, loin des sentiers
-              battus, en harmonie avec votre personnalité.
+            <p className="text-lg md:text-xl text-secondary/90 max-w-3xl mx-auto mb-8">
+              De la Polynésie à l&apos;autre bout du monde, je crée des voyages
+              uniques grâce à mon expertise de terrain.
+              <br className="hidden sm:block" />
+              <br className="hidden sm:block" />
+              Vivez une aventure personnalisée où chaque détail est pensé pour
+              transformer vos rêves en réalité.
             </p>
 
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6 mb-4">
               <ButtonCTA
                 size="lg"
-                className="bg-secondary text-primary hover:bg-primary/90 hover:scale-105 transition-all duration-300 hover:text-secondary shadow-md"
+                className="bg-secondary text-primary hover:bg-primary/90 hover:scale-105 transition-all duration-300 hover:text-secondary shadow-md group"
                 onClick={onContactClick}
-                aria-label="Contactez Johanna pour un voyage sur mesure"
+                aria-label="Demander un devis personnalisé pour votre voyage sur mesure international"
               >
-                C&apos;est parti !!!
+                <span className="group-hover:animate-pulse">
+                  Planifier mon voyage
+                </span>
               </ButtonCTA>
 
               <ButtonCTA
@@ -53,11 +64,32 @@ export default function TravelPlannerCTA({
                 variant="outline"
                 className="text-secondary hover:bg-white/10 hover:scale-105 transition-all duration-300 hover:bg-secondary hover:text-primary border-secondary/30"
                 onClick={() => router.push("/a-propos")}
-                aria-label="En savoir plus sur Johanna"
+                aria-label="Découvrir Johanna, votre Travel Planner internationale spécialiste de la Polynésie"
               >
-                Apprendre à me connaître
+                Découvrir mon expertise
               </ButtonCTA>
             </div>
+
+            <p className="mt-2 text-sm text-secondary/70 max-w-2xl mx-auto">
+              <span className="inline-block mx-1">
+                <strong>Spécialiste Polynésie française</strong>
+              </span>{" "}
+              •
+              <span className="inline-block mx-1">
+                <strong>Voyages internationaux sur mesure</strong>
+              </span>{" "}
+              •<span className="inline-block mx-1">Séjours authentiques</span> •
+              <span className="inline-block mx-1">Destinations exotiques</span>{" "}
+              •
+              <span className="inline-block mx-1">
+                Circuits hors des sentiers battus
+              </span>{" "}
+              •<span className="inline-block mx-1">Aventures culturelles</span>{" "}
+              •<span className="inline-block mx-1">Expériences locales</span> •
+              <span className="inline-block mx-1">
+                Itinéraires personnalisés
+              </span>
+            </p>
           </motion.div>
         </SectionTransition>
       </div>

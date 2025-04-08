@@ -1,5 +1,6 @@
-import PageHeader from "@/components/PageHeader";
+import TarifsCTA from "@/components/TarifsCTA";
 import TarifsFAQ from "@/components/TarifsFAQ";
+import TarifsHero from "@/components/TarifsHero";
 import TarifsPricing from "@/components/TarifsPricing";
 import { Metadata } from "next";
 
@@ -29,15 +30,13 @@ export const metadata: Metadata = {
 export default function TarifsPage() {
   return (
     <main className="min-h-screen">
-      <PageHeader
-        title="Tarifs"
-        subtitle="Des formules adaptées à vos besoins"
-        backgroundImage="/images/destinations/Hero.webp"
-      />
+      <TarifsHero />
 
       <TarifsPricing />
 
       <TarifsFAQ />
+
+      <TarifsCTA />
     </main>
   );
 }
