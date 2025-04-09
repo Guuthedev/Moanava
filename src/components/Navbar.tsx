@@ -4,24 +4,16 @@ import ButtonCTA from "@/components/ButtonCTA";
 import NavLink from "@/components/NavLink";
 import { TransitionLink } from "@/components/TransitionLink";
 import { useViewTransition } from "@/hooks/useViewTransition";
-import { AnimatePresence, motion } from "framer-motion";
+import { motion } from "framer-motion";
 import { Menu, X } from "lucide-react";
 import Image from "next/image";
-import Link from "next/link";
 import { useEffect, useState } from "react";
 import ContactFormPopup from "./ContactFormPopup";
 
 const menuLinks = [
   { name: "À propos", href: "/a-propos" },
   { name: "Travel Planner", href: "/travel-planner" },
-  {
-    name: "Tarifs",
-    href: "/tarifs",
-    submenu: [
-      { name: "Travel Planner", href: "/tarifs#travel-planner" },
-      { name: "Créatrice de vidéo", href: "/tarifs#video-creator" },
-    ],
-  },
+  { name: "Tarifs", href: "/tarifs" },
 ];
 
 interface NavbarProps {
@@ -39,7 +31,6 @@ export default function Navbar({
   const [isScrolled, setIsScrolled] = useState(false);
   const [internalIsContactOpen, setInternalIsContactOpen] = useState(false);
   const { isSupported } = useViewTransition();
-  const [activeSubmenu, setActiveSubmenu] = useState<string | null>(null);
 
   // Détermine si nous utilisons l'état interne ou externe pour isContactOpen
   const isContactOpen =
@@ -73,11 +64,6 @@ export default function Navbar({
     if (isMenuOpen) {
       setIsMenuOpen(false);
     }
-  };
-
-  // Gestion du clic sur un élément avec sous-menu
-  const handleSubmenuToggle = (name: string) => {
-    setActiveSubmenu(activeSubmenu === name ? null : name);
   };
 
   // Classe conditionnelle pour les éléments avec transition
@@ -144,93 +130,19 @@ export default function Navbar({
             {/* Navigation centrale - Colonne 2 - Version desktop */}
             <div className="hidden lg:flex items-center justify-center space-x-10">
               {menuLinks.map((link) => (
-                <div key={link.name} className="relative">
-                  {link.submenu ? (
-                    <>
-                      <div className="relative flex items-center justify-center">
-                        <button
-                          onClick={() => handleSubmenuToggle(link.name)}
-                          className={`flex items-center font-medium px-3 py-1.5 rounded-md transition-all duration-300 ${
-                            activeSubmenu === link.name
-                              ? "bg-secondary/80 text-primary"
-                              : "text-secondary hover:text-white"
-                          } ${
-                            isSupported
-                              ? `nav-item-${link.name
-                                  .toLowerCase()
-                                  .replace(/\s+/g, "-")}`
-                              : ""
-                          }`}
-                        >
-                          <span className="flex items-center">
-                            {link.name}
-                            <svg
-                              className={`ml-1 h-4 w-4 transition-transform duration-200 ${
-                                activeSubmenu === link.name ? "rotate-180" : ""
-                              }`}
-                              fill="none"
-                              viewBox="0 0 24 24"
-                              stroke="currentColor"
-                            >
-                              <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                strokeWidth={2}
-                                d="M19 9l-7 7-7-7"
-                              />
-                            </svg>
-                          </span>
-                        </button>
-                      </div>
-                    </>
-                  ) : (
-                    <NavLink
-                      href={link.href}
-                      className={
-                        isSupported
-                          ? `nav-item-${link.name
-                              .toLowerCase()
-                              .replace(/\s+/g, "-")}`
-                          : ""
-                      }
-                    >
-                      {link.name}
-                    </NavLink>
-                  )}
-
-                  {/* Sous-menu avec animation */}
-                  <AnimatePresence>
-                    {link.submenu && activeSubmenu === link.name && (
-                      <div className="fixed inset-0 pointer-events-none z-[9999]">
-                        <div className="relative w-full h-full">
-                          <motion.div
-                            initial={{ opacity: 0, y: -10 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            exit={{ opacity: 0, y: -10 }}
-                            transition={{ duration: 0.3 }}
-                            className="absolute left-1/2 -translate-x-1/2 top-[60px] w-64 rounded-xl bg-primary backdrop-blur-lg border border-secondary/10 overflow-hidden shadow-xl pointer-events-auto"
-                          >
-                            <div className="py-1">
-                              {link.submenu.map((subItem) => (
-                                <Link
-                                  key={subItem.name}
-                                  href={subItem.href}
-                                  className="relative group flex items-center justify-center mx-1 my-1 px-4 py-3 rounded-lg text-secondary transition-all duration-300 overflow-hidden"
-                                  onClick={() => setActiveSubmenu(null)}
-                                >
-                                  <span className="relative z-10 group-hover:text-primary transition-colors duration-300">
-                                    {subItem.name}
-                                  </span>
-                                  <span className="absolute inset-0 bg-secondary scale-x-0 group-hover:scale-x-100 group-hover:origin-left origin-right transform transition-transform duration-300 rounded-lg"></span>
-                                </Link>
-                              ))}
-                            </div>
-                          </motion.div>
-                        </div>
-                      </div>
-                    )}
-                  </AnimatePresence>
-                </div>
+                <NavLink
+                  key={link.name}
+                  href={link.href}
+                  className={
+                    isSupported
+                      ? `nav-item-${link.name
+                          .toLowerCase()
+                          .replace(/\s+/g, "-")}`
+                      : ""
+                  }
+                >
+                  {link.name}
+                </NavLink>
               ))}
             </div>
 
@@ -285,73 +197,16 @@ export default function Navbar({
           </div>
 
           <div className="flex flex-col items-center space-y-6 mt-20 w-full">
-            {menuLinks.map((link) =>
-              link.submenu ? (
-                <div key={link.name} className="w-full">
-                  <button
-                    onClick={() => handleSubmenuToggle(link.name)}
-                    className={`font-medium p-5 rounded-md text-center w-full text-xl flex items-center justify-center transition-all duration-300 ${
-                      activeSubmenu === link.name
-                        ? "bg-secondary/80 text-primary"
-                        : "bg-secondary/5 text-secondary"
-                    }`}
-                  >
-                    {link.name}
-                    <svg
-                      className={`ml-2 h-4 w-4 transition-transform duration-200 ${
-                        activeSubmenu === link.name ? "rotate-180" : ""
-                      }`}
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M19 9l-7 7-7-7"
-                      />
-                    </svg>
-                  </button>
-                  <AnimatePresence>
-                    {activeSubmenu === link.name && (
-                      <motion.div
-                        initial={{ opacity: 0, height: 0 }}
-                        animate={{ opacity: 1, height: "auto" }}
-                        exit={{ opacity: 0, height: 0 }}
-                        transition={{ duration: 0.3 }}
-                        className="overflow-hidden"
-                      >
-                        <div className="pl-5 space-y-2 my-2 bg-white/5 py-2">
-                          {link.submenu.map((subItem) => (
-                            <TransitionLink
-                              key={subItem.name}
-                              href={subItem.href}
-                              className="text-secondary/80 font-medium p-3 hover:bg-secondary/5 rounded-md transition-colors text-center block text-lg"
-                              onClick={() => {
-                                setIsMenuOpen(false);
-                                setActiveSubmenu(null);
-                              }}
-                            >
-                              {subItem.name}
-                            </TransitionLink>
-                          ))}
-                        </div>
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
-                </div>
-              ) : (
-                <TransitionLink
-                  key={link.name}
-                  href={link.href}
-                  className="text-secondary font-medium p-5 hover:bg-secondary/10 rounded-md transition-colors text-center w-full text-xl"
-                  onClick={() => setIsMenuOpen(false)}
-                >
-                  {link.name}
-                </TransitionLink>
-              )
-            )}
+            {menuLinks.map((link) => (
+              <TransitionLink
+                key={link.name}
+                href={link.href}
+                className="text-secondary font-medium p-5 hover:bg-secondary/10 rounded-md transition-colors text-center w-full text-xl"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                {link.name}
+              </TransitionLink>
+            ))}
 
             <div className="pt-4 w-5/6 sm:w-2/3">
               <ButtonCTA

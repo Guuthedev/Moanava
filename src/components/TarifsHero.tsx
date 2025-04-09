@@ -4,7 +4,7 @@ import ButtonCTA from "@/components/ButtonCTA";
 import { FlipWords } from "@/components/ui/flip-words";
 import "@/styles/view-transitions.css";
 import { AnimatePresence, motion } from "framer-motion";
-import { X } from "lucide-react";
+import { ChevronDown, X } from "lucide-react";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import SectionTransition from "./SectionTransition";
@@ -14,7 +14,6 @@ interface TarifsContentProps {
   subtitle: string;
   isVisible: boolean;
   keywords: string[];
-  onContactClick?: () => void;
 }
 
 const ConcurrentPopup = ({
@@ -132,9 +131,24 @@ const TarifsContent: React.FC<TarifsContentProps> = ({
   subtitle,
   isVisible,
   keywords,
-  onContactClick,
 }) => {
   const [isPopupVisible, setIsPopupVisible] = useState(false);
+
+  // Fonction pour le défilement fluide vers les ancres
+  const scrollToAnchor = (anchorId: string) => {
+    const element = document.getElementById(anchorId);
+    if (element) {
+      // Ajouter un petit offset pour éviter que l'élément soit caché par la navbar
+      const offset = 120;
+      const elementPosition = element.getBoundingClientRect().top;
+      const offsetPosition = elementPosition + window.pageYOffset - offset;
+
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: "smooth",
+      });
+    }
+  };
 
   return (
     <motion.div
@@ -151,13 +165,13 @@ const TarifsContent: React.FC<TarifsContentProps> = ({
         transition={{ duration: 1.5, delay: 0.5, ease: "easeOut" }}
       >
         <span className="inline-flex flex-col items-center justify-center gap-y-2">
-          Des formules
+          Tarifs et Services
           <FlipWords
             words={keywords}
             duration={2500}
             className="text-primary/90 [text-shadow:_0_1px_0_var(--secondary)]"
           />
-          pour votre voyage
+          en Polynésie
         </span>
       </motion.h1>
 
@@ -183,8 +197,8 @@ const TarifsContent: React.FC<TarifsContentProps> = ({
           animate={isVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
           transition={{ duration: 1, delay: 2.5, ease: "easeOut" }}
         >
-          Transparence et flexibilité, des tarifs clairs pour des prestations de
-          qualité
+          Des prix transparents pour des voyages sur mesure en Polynésie et des
+          vidéos promotionnelles de qualité
         </motion.p>
 
         <motion.p
@@ -193,7 +207,8 @@ const TarifsContent: React.FC<TarifsContentProps> = ({
           animate={isVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
           transition={{ duration: 1, delay: 3, ease: "easeOut" }}
         >
-          &ldquo;Votre budget optimisé pour une expérience maximale&rdquo;
+          &ldquo;Une tarification claire pour des prestations d&apos;exception
+          adaptées à vos besoins&rdquo;
         </motion.p>
       </motion.div>
 
@@ -211,14 +226,27 @@ const TarifsContent: React.FC<TarifsContentProps> = ({
           whileTap={{ scale: 0.98 }}
           className="inline-block"
         >
-          <ButtonCTA
-            size="lg"
-            className="bg-secondary text-primary hover:bg-primary/90 hover:text-secondary shadow-md group transition-all duration-300"
-            onClick={onContactClick}
-            aria-label="Contacter Johanna pour un devis personnalisé selon vos besoins"
-          >
-            <span className="group-hover:animate-pulse">Obtenir un devis</span>
-          </ButtonCTA>
+          <div className="relative">
+            <p className="text-sm text-secondary/70 mb-1">
+              Découvrez nos formules et tarifs
+            </p>
+            <ButtonCTA
+              size="lg"
+              className="bg-secondary text-primary hover:bg-primary/90 hover:text-secondary shadow-md group transition-all duration-300 px-6"
+              aria-label="Voir les tarifs pour un voyage sur mesure en Polynésie"
+              onClick={() => scrollToAnchor("travel-planner")}
+            >
+              <span className="flex items-center gap-2 relative overflow-hidden">
+                <span className="group-hover:translate-y-[-100%] transition-transform duration-300 inline-block">
+                  Voyage sur mesure
+                </span>
+                <span className="absolute top-0 left-0 group-hover:translate-y-0 translate-y-[100%] transition-transform duration-300 text-primary/90 font-medium">
+                  Voir les tarifs →
+                </span>
+                <ChevronDown className="w-5 h-5 transition-transform duration-300 group-hover:rotate-90" />
+              </span>
+            </ButtonCTA>
+          </div>
         </motion.div>
 
         <motion.div
@@ -226,15 +254,28 @@ const TarifsContent: React.FC<TarifsContentProps> = ({
           whileTap={{ scale: 0.98 }}
           className="inline-block"
         >
-          <ButtonCTA
-            size="lg"
-            variant="outline"
-            className="text-secondary hover:bg-red-500/10 transition-all duration-300 hover:text-red-500 border-secondary/30"
-            onClick={() => setIsPopupVisible(true)}
-            aria-label="Affiche les raisons de ne pas aller chez un concurrent"
-          >
-            Contacter un concurrent
-          </ButtonCTA>
+          <div className="relative">
+            <p className="text-sm text-secondary/70 mb-1">
+              Pour les professionnels
+            </p>
+            <ButtonCTA
+              size="lg"
+              variant="outline"
+              className="text-secondary hover:bg-secondary/10 transition-all duration-300 border-secondary/30 px-6"
+              aria-label="Voir les tarifs pour la création de vidéo promotionnelle"
+              onClick={() => scrollToAnchor("video-creator")}
+            >
+              <span className="flex items-center gap-2 relative overflow-hidden">
+                <span className="group-hover:translate-y-[-100%] transition-transform duration-300 inline-block">
+                  Vidéo promotionnelle
+                </span>
+                <span className="absolute top-0 left-0 group-hover:translate-y-0 translate-y-[100%] transition-transform duration-300 font-medium">
+                  Consulter les prix →
+                </span>
+                <ChevronDown className="w-5 h-5 transition-transform duration-300 group-hover:rotate-90" />
+              </span>
+            </ButtonCTA>
+          </div>
         </motion.div>
       </motion.div>
 
@@ -246,18 +287,17 @@ const TarifsContent: React.FC<TarifsContentProps> = ({
         transition={{ duration: 1, delay: 3.5, ease: "easeOut" }}
       >
         <span className="inline-block mx-1">
-          <strong>Tarifs transparents</strong>
+          <strong>Tarifs voyage Polynésie</strong>
         </span>{" "}
         •
         <span className="inline-block mx-1">
-          <strong>Formules flexibles</strong>
+          <strong>Prix vidéo promotionnelle</strong>
         </span>{" "}
-        •<span className="inline-block mx-1">Prix par jour</span> •
-        <span className="inline-block mx-1">Sans commissions cachées</span> •
-        <span className="inline-block mx-1">Prestations détaillées</span> •
-        <span className="inline-block mx-1">Options sur mesure</span> •
-        <span className="inline-block mx-1">Réservations assistées</span> •
-        <span className="inline-block mx-1">Support pendant le voyage</span>
+        •<span className="inline-block mx-1">Formules personnalisées</span> •
+        <span className="inline-block mx-1">Services détaillés</span> •
+        <span className="inline-block mx-1">Options à la carte</span> •
+        <span className="inline-block mx-1">Devis gratuits</span> •
+        <span className="inline-block mx-1">Rapport qualité-prix</span>
       </motion.p>
 
       {/* Popup qui apparaît lorsqu'on clique sur "Contacter un concurrent" */}
@@ -272,13 +312,11 @@ const TarifsContent: React.FC<TarifsContentProps> = ({
 // Définition des types pour les props
 interface TarifsHeroProps {
   subtitle?: string;
-  onContactClick?: () => void;
 }
 
 // Composant TarifsHero avec typage TypeScript
 const TarifsHero: React.FC<TarifsHeroProps> = ({
-  subtitle = "Chaque formule est conçue pour vous offrir une expérience sur mesure, de la courte escapade au voyage prolongé à travers le monde.",
-  onContactClick,
+  subtitle = "Consultez les tarifs détaillés de nos services de Travel Planner pour votre voyage en Polynésie et de création vidéo pour votre entreprise.",
 }) => {
   const [isVisible, setIsVisible] = useState<boolean>(true);
 
@@ -331,15 +369,14 @@ const TarifsHero: React.FC<TarifsHeroProps> = ({
             subtitle={subtitle}
             isVisible={isVisible}
             keywords={[
-              " adaptées",
-              " sur mesure",
-              " transparentes",
-              " personnalisées",
-              " flexibles",
+              " compétitifs",
+              " avantageux",
+              " transparents",
+              " personnalisés",
               " abordables",
               " sans surprise",
+              " tout compris",
             ]}
-            onContactClick={onContactClick}
           />
         </SectionTransition>
       </div>
