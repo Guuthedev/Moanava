@@ -1,21 +1,9 @@
 "use client";
 
 import { AnimatePresence, motion } from "framer-motion";
-import {
-  Briefcase,
-  Building,
-  Compass,
-  Globe,
-  Heart,
-  MapPin,
-  Mountain,
-  Plane,
-  Users,
-} from "lucide-react";
 import React, { useState } from "react";
 import ButtonCTA from "./ButtonCTA";
 import ContactFormPopup from "./ContactFormPopup";
-import { CardHoverEffect } from "./ui/card-hover-effect";
 
 // Types pour les formules de prix
 interface PricingFeature {
@@ -41,7 +29,6 @@ interface PricingPlan {
 
 interface PricingComponentProps {
   title: React.ReactNode;
-  subtitle?: string;
   plans: PricingPlan[];
   onSelectPlan: (planId: string) => void;
   showComparison?: boolean;
@@ -220,7 +207,6 @@ const pricingPlans: PricingPlan[] = [
 
 const PricingComponent: React.FC<PricingComponentProps> = ({
   title,
-  subtitle,
   plans,
   onSelectPlan,
   showComparison = false,
@@ -311,14 +297,7 @@ const PricingComponent: React.FC<PricingComponentProps> = ({
       <div className="max-w-7xl mx-auto">
         {/* En-tête */}
         <div className="text-center mb-12">
-          <h2 className="text-3xl font-extrabold text-foreground sm:text-4xl lg:text-5xl font-display">
-            {title}
-          </h2>
-          {subtitle && (
-            <p className="mt-4 text-xl text-secondary max-w-3xl mx-auto">
-              {subtitle}
-            </p>
-          )}
+          {title}
 
           {/* Bouton de conversion de devise */}
           <div className="mt-6 mb-4">
@@ -557,9 +536,9 @@ const PricingComponent: React.FC<PricingComponentProps> = ({
                             />
                           </svg>
                         </div>
-                        <p className="text-sm font-medium text-foreground">
+                        <div className="text-sm font-medium text-foreground">
                           {renderTooltip(feature)}
-                        </p>
+                        </div>
                       </div>
                     ))}
                   </div>
@@ -649,7 +628,7 @@ const PricingComponent: React.FC<PricingComponentProps> = ({
                           )}
                         </div>
                         <div className="ml-3 flex-1">
-                          <p
+                          <div
                             className={`text-base inline-flex items-center ${
                               feature.included
                                 ? "text-foreground"
@@ -657,7 +636,7 @@ const PricingComponent: React.FC<PricingComponentProps> = ({
                             }`}
                           >
                             {renderTooltip(feature)}
-                          </p>
+                          </div>
                         </div>
                       </li>
                     ))}
@@ -697,142 +676,62 @@ const PricingComponent: React.FC<PricingComponentProps> = ({
 };
 
 export default function TarifsPricing() {
-  const [isContactPopupOpen, setIsContactPopupOpen] = useState(false);
   const [selectedPlan, setSelectedPlan] = useState<string | null>(null);
+  const [showContactPopup, setShowContactPopup] = useState(false);
 
   const handleSelectPlan = (planId: string) => {
     setSelectedPlan(planId);
-    setIsContactPopupOpen(true);
+    setShowContactPopup(true);
   };
 
   const handleCloseContactPopup = () => {
-    setIsContactPopupOpen(false);
+    setShowContactPopup(false);
   };
 
-  // Message prérempli en fonction du plan sélectionné
   const getInitialMessage = () => {
     if (!selectedPlan) return "";
-
     const plan = pricingPlans.find((p) => p.id === selectedPlan);
-    if (!plan) return "";
-
-    return `Bonjour Johanna, je souhaite réserver une consultation pour la ${plan.name}. Merci de me contacter pour en discuter.`;
+    return plan
+      ? `Bonjour, je suis intéressé(e) par la ${plan.name} pour organiser mon voyage en Polynésie.`
+      : "";
   };
 
-  // Information sur l'origine du formulaire
   const getFormOrigin = () => {
-    if (!selectedPlan) return "Formulaire de contact (page Tarifs)";
-
+    if (!selectedPlan) return "tarifs";
     const plan = pricingPlans.find((p) => p.id === selectedPlan);
-    if (!plan) return "Formulaire de contact (page Tarifs)";
-
-    return `Bouton "Réserver une consultation" - ${plan.name} (page Tarifs)`;
+    return plan ? `tarifs-${plan.id}` : "tarifs";
   };
 
   return (
-    <section id="travel-planner" className="min-h-screen py-24 bg-white">
-      <PricingComponent
-        title={
-          <>
-            <span className="text-secondary">Tarifs transparents</span>{" "}
-            <span className="text-primary [text-shadow:_0_1px_0_var(--secondary)]">
-              pour votre voyage sur mesure
-            </span>
-          </>
-        }
-        subtitle="Découvrez mes formules claires et sans surprises pour organiser votre voyage de rêve partout dans le monde. Avec mon expertise, gagnez un temps précieux et profitez d'un accompagnement personnalisé du début à la fin."
-        plans={pricingPlans}
-        onSelectPlan={handleSelectPlan}
-        showComparison={true}
-      />
-
-      {/* Contact Popup */}
-      <ContactFormPopup
-        isOpen={isContactPopupOpen}
-        onClose={handleCloseContactPopup}
-        initialMessage={getInitialMessage()}
-        origin={getFormOrigin()}
-      />
-
-      {/* Section Sur Devis - page entière */}
-      <section
-        id="video-creator"
-        className="min-h-screen py-20 flex flex-col justify-center"
-      >
-        <div className="w-full px-4 sm:px-6 lg:px-8">
-          <div className="max-w-7xl mx-auto">
-            {/* Section sur devis */}
-            <div className="p-8">
-              <h3 className="text-3xl font-extrabold text-foreground sm:text-4xl lg:text-5xl font-display text-center mb-12">
-                <span className="text-secondary">Sur</span>{" "}
+    <section className="py-20 bg-gradient-to-b from-white to-primary/5">
+      <div className="container mx-auto px-4">
+        <PricingComponent
+          title={
+            <div className="text-center mb-16">
+              <h2 className="text-4xl lg:text-5xl font-bold font-display mb-6">
                 <span className="text-primary [text-shadow:_0_1px_0_var(--secondary)]">
-                  Devis
-                </span>
-              </h3>
-
-              <CardHoverEffect
-                className="max-w-5xl mx-auto"
-                items={[
-                  {
-                    title: "Groupe > 4 personnes",
-                    description:
-                      "Je propose des tarifs adaptés aux voyages en groupe, quelle que soit la taille de votre groupe.",
-                    icon: Users,
-                  },
-                  {
-                    title: "Voyage > 21 jours",
-                    description:
-                      "Pour les longs voyages, je vous propose une organisation complète avec un tarif sur mesure.",
-                    icon: Plane,
-                  },
-                  {
-                    title: "Multi-destinations",
-                    description:
-                      "Explorez plusieurs pays ou régions en un seul voyage avec un itinéraire parfaitement coordonné.",
-                    icon: Globe,
-                  },
-                  {
-                    title: "Voyage de noce",
-                    description:
-                      "Des moments inoubliables pour célébrer votre union avec des touches romantiques personnalisées.",
-                    icon: Heart,
-                  },
-                  {
-                    title: "Voyage d&apos;affaire",
-                    description:
-                      "Organisation efficace de vos déplacements professionnels avec un focus sur l&apos;efficacité et le confort.",
-                    icon: Briefcase,
-                  },
-                  {
-                    title: "Séminaire",
-                    description:
-                      "Des solutions complètes pour vos événements d&apos;entreprise, incluant transport, hébergement et activités.",
-                    icon: Building,
-                  },
-                  {
-                    title: "Grande randonnée",
-                    description:
-                      "Parcours de randonnée sur mesure, du grand classique à l&apos;itinérant. Je vous organise des parcours en montagne avec des options de refuge ou bivouac selon vos préférences.",
-                    icon: Mountain,
-                  },
-                  {
-                    title: "Autre projet spécifique",
-                    description:
-                      "Vous avez une idée particulière ? Je suis à votre écoute pour réaliser votre projet sur mesure.",
-                    icon: Compass,
-                  },
-                  {
-                    title: "Besoin d&apos;inspiration ?",
-                    description:
-                      "Vous ne savez pas où aller ? Je peux vous aider à trouver la destination idéale selon vos envies.",
-                    icon: MapPin,
-                  },
-                ]}
-              />
+                  Nos Formules
+                </span>{" "}
+                <span className="text-secondary">Tarifaires</span>
+              </h2>
+              <p className="text-xl text-secondary max-w-3xl mx-auto">
+                Choisissez la formule qui correspond le mieux à votre projet de
+                voyage en Polynésie française
+              </p>
             </div>
-          </div>
-        </div>
-      </section>
+          }
+          plans={pricingPlans}
+          onSelectPlan={handleSelectPlan}
+          showComparison={true}
+        />
+
+        <ContactFormPopup
+          isOpen={showContactPopup}
+          onClose={handleCloseContactPopup}
+          initialMessage={getInitialMessage()}
+          origin={getFormOrigin()}
+        />
+      </div>
     </section>
   );
 }

@@ -1,10 +1,11 @@
 "use client";
 
 import ButtonCTA from "@/components/ButtonCTA";
+import ButtonCTA2 from "@/components/ButtonCTA2";
 import { FlipWords } from "@/components/ui/flip-words";
 import "@/styles/view-transitions.css";
 import { AnimatePresence, motion } from "framer-motion";
-import { ChevronDown, X } from "lucide-react";
+import { X } from "lucide-react";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import SectionTransition from "./SectionTransition";
@@ -171,7 +172,7 @@ const TarifsContent: React.FC<TarifsContentProps> = ({
             duration={2500}
             className="text-primary/90 [text-shadow:_0_1px_0_var(--secondary)]"
           />
-          en Polynésie
+          avec Johanna
         </span>
       </motion.h1>
 
@@ -197,8 +198,8 @@ const TarifsContent: React.FC<TarifsContentProps> = ({
           animate={isVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
           transition={{ duration: 1, delay: 2.5, ease: "easeOut" }}
         >
-          Des prix transparents pour des voyages sur mesure en Polynésie et des
-          vidéos promotionnelles de qualité
+          Explorez mon expertise unique pour créer votre voyage de rêve ou
+          sublimer votre marque avec des vidéos captivantes
         </motion.p>
 
         <motion.p
@@ -207,8 +208,8 @@ const TarifsContent: React.FC<TarifsContentProps> = ({
           animate={isVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
           transition={{ duration: 1, delay: 3, ease: "easeOut" }}
         >
-          &ldquo;Une tarification claire pour des prestations d&apos;exception
-          adaptées à vos besoins&rdquo;
+          &ldquo;Investissez dans l&apos;excellence, confiez-moi votre vision et
+          regardez-la prendre vie&rdquo;
         </motion.p>
       </motion.div>
 
@@ -226,27 +227,31 @@ const TarifsContent: React.FC<TarifsContentProps> = ({
           whileTap={{ scale: 0.98 }}
           className="inline-block"
         >
-          <div className="relative">
-            <p className="text-sm text-secondary/70 mb-1">
-              Découvrez nos formules et tarifs
-            </p>
-            <ButtonCTA
-              size="lg"
-              className="bg-secondary text-primary hover:bg-primary/90 hover:text-secondary shadow-md group transition-all duration-300 px-6"
-              aria-label="Voir les tarifs pour un voyage sur mesure en Polynésie"
-              onClick={() => scrollToAnchor("travel-planner")}
-            >
-              <span className="flex items-center gap-2 relative overflow-hidden">
-                <span className="group-hover:translate-y-[-100%] transition-transform duration-300 inline-block">
-                  Voyage sur mesure
-                </span>
-                <span className="absolute top-0 left-0 group-hover:translate-y-0 translate-y-[100%] transition-transform duration-300 text-primary/90 font-medium">
-                  Voir les tarifs →
-                </span>
-                <ChevronDown className="w-5 h-5 transition-transform duration-300 group-hover:rotate-90" />
-              </span>
-            </ButtonCTA>
-          </div>
+          <ButtonCTA
+            size="lg"
+            className="group relative"
+            aria-label="Voir les tarifs pour un voyage sur mesure en Polynésie"
+            onClick={() => scrollToAnchor("travel-planner")}
+          >
+            Voyage sur mesure
+            <span className="absolute left-1/2 -translate-x-1/2 -bottom-8 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center gap-1 text-sm font-normal">
+              Voir les tarifs
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                className="animate-bounce"
+              >
+                <path d="M6 9l6 6 6-6" />
+              </svg>
+            </span>
+          </ButtonCTA>
         </motion.div>
 
         <motion.div
@@ -254,28 +259,31 @@ const TarifsContent: React.FC<TarifsContentProps> = ({
           whileTap={{ scale: 0.98 }}
           className="inline-block"
         >
-          <div className="relative">
-            <p className="text-sm text-secondary/70 mb-1">
-              Pour les professionnels
-            </p>
-            <ButtonCTA
-              size="lg"
-              variant="outline"
-              className="text-secondary hover:bg-secondary/10 transition-all duration-300 border-secondary/30 px-6"
-              aria-label="Voir les tarifs pour la création de vidéo promotionnelle"
-              onClick={() => scrollToAnchor("video-creator")}
-            >
-              <span className="flex items-center gap-2 relative overflow-hidden">
-                <span className="group-hover:translate-y-[-100%] transition-transform duration-300 inline-block">
-                  Vidéo promotionnelle
-                </span>
-                <span className="absolute top-0 left-0 group-hover:translate-y-0 translate-y-[100%] transition-transform duration-300 font-medium">
-                  Consulter les prix →
-                </span>
-                <ChevronDown className="w-5 h-5 transition-transform duration-300 group-hover:rotate-90" />
-              </span>
-            </ButtonCTA>
-          </div>
+          <ButtonCTA2
+            size="lg"
+            className="group relative"
+            aria-label="Voir les tarifs pour la création de vidéo promotionnelle"
+            onClick={() => scrollToAnchor("video-creator")}
+          >
+            Vidéo promotionnelle
+            <span className="absolute left-1/2 -translate-x-1/2 -bottom-8 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center gap-1 text-sm font-normal">
+              Voir les tarifs
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                className="animate-bounce"
+              >
+                <path d="M6 9l6 6 6-6" />
+              </svg>
+            </span>
+          </ButtonCTA2>
         </motion.div>
       </motion.div>
 
@@ -287,7 +295,7 @@ const TarifsContent: React.FC<TarifsContentProps> = ({
         transition={{ duration: 1, delay: 3.5, ease: "easeOut" }}
       >
         <span className="inline-block mx-1">
-          <strong>Tarifs voyage Polynésie</strong>
+          <strong>Voyages internationaux</strong>
         </span>{" "}
         •
         <span className="inline-block mx-1">
@@ -316,7 +324,7 @@ interface TarifsHeroProps {
 
 // Composant TarifsHero avec typage TypeScript
 const TarifsHero: React.FC<TarifsHeroProps> = ({
-  subtitle = "Consultez les tarifs détaillés de nos services de Travel Planner pour votre voyage en Polynésie et de création vidéo pour votre entreprise.",
+  subtitle = "Consultez les tarifs détaillés de mes services de Travel Planner pour votre voyage partout dans le monde et de création vidéo pour votre entreprise.",
 }) => {
   const [isVisible, setIsVisible] = useState<boolean>(true);
 
@@ -351,7 +359,7 @@ const TarifsHero: React.FC<TarifsHeroProps> = ({
         {/* Image de fond avec flou */}
         <div className="absolute inset-0 backdrop-blur-[8px]">
           <Image
-            src="/images/destinations/tarifs-hero.webp"
+            src="/images/johanna/johanna-mer.webp"
             alt="Fond tarifs Moanava"
             fill
             className="object-cover object-center"
@@ -375,7 +383,7 @@ const TarifsHero: React.FC<TarifsHeroProps> = ({
               " personnalisés",
               " abordables",
               " sans surprise",
-              " tout compris",
+              " internationaux",
             ]}
           />
         </SectionTransition>

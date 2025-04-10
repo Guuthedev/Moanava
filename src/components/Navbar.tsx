@@ -9,6 +9,7 @@ import { Menu, X } from "lucide-react";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import ContactFormPopup from "./ContactFormPopup";
+import { TarifsPopup } from "./ui/Tarifs-navbar";
 
 const menuLinks = [
   { name: "À propos", href: "/a-propos" },
@@ -30,6 +31,7 @@ export default function Navbar({
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [internalIsContactOpen, setInternalIsContactOpen] = useState(false);
+  const [isTarifsOpen, setIsTarifsOpen] = useState(false);
   const { isSupported } = useViewTransition();
 
   // Détermine si nous utilisons l'état interne ou externe pour isContactOpen
@@ -120,52 +122,69 @@ export default function Navbar({
                       },
                     }}
                   />
-                  <span className="text-secondary group-hover/logo-text:text-primary font-medium text-lg px-1 py-0.5 relative z-10 transition-colors duration-300">
-                    MOANAVA.COM
-                  </span>
                 </motion.div>
               </TransitionLink>
             </div>
 
             {/* Navigation centrale - Colonne 2 - Version desktop */}
             <div className="hidden lg:flex items-center justify-center space-x-10">
-              {menuLinks.map((link) => (
-                <NavLink
-                  key={link.name}
-                  href={link.href}
-                  className={
-                    isSupported
-                      ? `nav-item-${link.name
-                          .toLowerCase()
-                          .replace(/\s+/g, "-")}`
-                      : ""
-                  }
-                >
-                  {link.name}
-                </NavLink>
-              ))}
+              {menuLinks.map((link) =>
+                link.name === "Tarifs" ? (
+                  <button
+                    key={link.name}
+                    className={`text-secondary font-medium relative group transition-all duration-300 transform-gpu pb-0.5 ${
+                      isSupported
+                        ? `nav-item-${link.name
+                            .toLowerCase()
+                            .replace(/\s+/g, "-")}`
+                        : ""
+                    }`}
+                    onClick={() => setIsTarifsOpen(true)}
+                  >
+                    {link.name}
+                    <span
+                      className="absolute bottom-0 left-0 w-0 h-0.5 bg-secondary origin-left transition-all duration-300 group-hover:w-full"
+                      aria-hidden="true"
+                    />
+                  </button>
+                ) : (
+                  <NavLink
+                    key={link.name}
+                    href={link.href}
+                    className={
+                      isSupported
+                        ? `nav-item-${link.name
+                            .toLowerCase()
+                            .replace(/\s+/g, "-")}`
+                        : ""
+                    }
+                  >
+                    {link.name}
+                  </NavLink>
+                )
+              )}
             </div>
 
             {/* CTA + Menu mobile - Colonne 3 */}
             <div className="flex items-center justify-end lg:justify-end">
               <ButtonCTA
                 size="sm"
-                className="hidden lg:flex text-base font-normal h-auto py-1.5 px-4"
+                className="hidden lg:flex text-base font-normal h-auto py-2.25 px-6"
                 onClick={handleOpenContact}
               >
-                Votre voyage sur mesure
+                Contactez-moi !
               </ButtonCTA>
 
               {/* Bouton menu pour mobile et tablette */}
               <button
                 onClick={() => setIsMenuOpen(!isMenuOpen)}
-                className="p-4 sm:p-5 rounded-full bg-secondary/10 hover:bg-secondary/20 transition-colors text-secondary lg:hidden touch-manipulation"
+                className="p-6 sm:p-7.5 rounded-full bg-secondary/10 hover:bg-secondary/20 transition-colors text-secondary lg:hidden touch-manipulation"
                 aria-label={isMenuOpen ? "Fermer le menu" : "Ouvrir le menu"}
               >
                 {isMenuOpen ? (
-                  <X className="h-7 w-7 sm:h-8 sm:w-8" />
+                  <X className="h-10.5 w-10.5 sm:h-12 sm:w-12" />
                 ) : (
-                  <Menu className="h-7 w-7 sm:h-8 sm:w-8" />
+                  <Menu className="h-10.5 w-10.5 sm:h-12 sm:w-12" />
                 )}
               </button>
             </div>
@@ -202,7 +221,12 @@ export default function Navbar({
                 key={link.name}
                 href={link.href}
                 className="text-secondary font-medium p-5 hover:bg-secondary/10 rounded-md transition-colors text-center w-full text-xl"
-                onClick={() => setIsMenuOpen(false)}
+                onClick={() => {
+                  if (link.name === "Tarifs") {
+                    setIsTarifsOpen(true);
+                  }
+                  setIsMenuOpen(false);
+                }}
               >
                 {link.name}
               </TransitionLink>
@@ -221,13 +245,15 @@ export default function Navbar({
         </div>
       </nav>
 
-      {/* Popup de formulaire de contact - Utilisé seulement si on gère l'état en interne */}
-      {!externalSetIsContactOpen && (
-        <ContactFormPopup
-          isOpen={isContactOpen}
-          onClose={() => setIsContactOpen(false)}
-        />
-      )}
+      {/* Popups */}
+      <ContactFormPopup
+        isOpen={isContactOpen}
+        onClose={() => setIsContactOpen(false)}
+      />
+      <TarifsPopup
+        isOpen={isTarifsOpen}
+        onClose={() => setIsTarifsOpen(false)}
+      />
     </>
   );
 }

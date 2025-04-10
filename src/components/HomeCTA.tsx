@@ -18,7 +18,7 @@ export default function HomeCTA({ onContactClick }: HomeCTAProps) {
       <div className="w-full px-4 relative z-10 flex items-center justify-center">
         <SectionTransition direction="up">
           <motion.div
-            className="w-full max-w-4xl mx-auto text-center flex flex-col items-center justify-center bg-primary/20 backdrop-blur-sm rounded-3xl p-8 shadow-xl border border-primary/10"
+            className="w-full max-w-4xl mx-auto text-center flex flex-col items-center justify-center bg-primary/20 rounded-3xl p-8 shadow-xl border border-primary/10"
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
